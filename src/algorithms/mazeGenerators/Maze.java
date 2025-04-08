@@ -27,6 +27,7 @@ public class Maze {
         this.matrix= new int[this.rows][this.cols];
         this.rand=new Random();
         this.S =new Position(rand.nextInt((rows-1)/2)*2+1,rand.nextInt((cols-1)/2)*2+1);
+        this.E =new Position(rand.nextInt((rows-1)/2)*2+1,rand.nextInt((cols-1)/2)*2+1);
         }
     }
 
@@ -41,6 +42,7 @@ public class Maze {
     public int[][] getMatrix(){
         return this.matrix;
     }
+
 
     public void print(){
         System.out.println("{"+ this.getRows() + "," + this.getCols() + "}");

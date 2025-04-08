@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 public class MyMazeGenerator extends AMazeGenerator{
     private Random rand;
-    private ArrayList<int[]> walls;
+    private ArrayList<Position> walls;
 
 
     public MyMazeGenerator(){
         this.rand=new Random();
-        this.walls= new ArrayList<int[]>();
+        this.walls= new ArrayList<Position>();
 
     }
     @Override
@@ -22,13 +22,28 @@ public class MyMazeGenerator extends AMazeGenerator{
                 mymaze.getMatrix()[i][j]=1;
             }
         }
-        int startrow= rand.nextInt((rows-1)/2)*2+1;
-        int startcol= rand.nextInt((rows-1)/2)*2+1;
-        int startcell = mymaze.getMatrix()[startrow][startcol];
-        startcell=0;
-        int wall_r =mymaze.getMatrix()[startrow][startcol+1];
-        int wall_l =mymaze.getMatrix()[startrow][startcol-10];
+        int startrow= this.rand.nextInt((rows-1)/2)*2+1;
+        int startcol= this.rand.nextInt((rows-1)/2)*2+1;
+        Position startcell = mymaze.getStartPosition();
+        mymaze.getMatrix()[startcell.getRowIndex()][startcell.getColumnIndex()]=0;
+        Position wall_r= new Position(startrow,startcol+1);
+        Position wall_l= new Position(startrow,startcol-1);
+        Position wall_a= new Position(startrow+1,startcol);
+        Position wall_b= new Position(startrow-1,startcol);
 
+        this.walls.add(wall_a);
+        this.walls.add(wall_b);
+        this.walls.add(wall_r);
+        this.walls.add(wall_l);
+
+        while (this.walls.size()!=0){
+            int i=this.rand.nextInt();
+            Position pos=this.walls.get(i); //chose wall randomly from list
+            if(mymaze.getMatrix()[pos.getRowIndex()][pos.getColumnIndex()]==1)//then not broken
+            {
+
+            }
+        }
 
         return null;
     }
