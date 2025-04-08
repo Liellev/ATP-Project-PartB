@@ -21,8 +21,4 @@ public class SimpleMazeGenerator extends AMazeGenerator {
         return simple;
     }
 
-    private int getRandomNumber(){
-        Random random = new Random();
-        return random.ints(0, 1).findFirst().getAsInt();
-    }
 }
