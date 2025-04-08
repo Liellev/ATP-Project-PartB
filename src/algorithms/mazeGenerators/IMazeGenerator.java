@@ -1,4 +1,4 @@
 package algorithms.mazeGenerators;
 
-public class IMazeGenerator {
+public interface IMazeGenerator {
 }
