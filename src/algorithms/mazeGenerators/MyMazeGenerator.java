@@ -17,6 +17,7 @@ public class MyMazeGenerator extends AMazeGenerator{
     public Maze generate(int rows, int cols) {
 
         Maze mymaze=new Maze(rows,cols);
+
         for(int i=0; i< mymaze.getRows();i++){
             for(int j=0;j< mymaze.getCols();j++){
                 mymaze.getMatrix()[i][j]=1;
@@ -26,29 +27,82 @@ public class MyMazeGenerator extends AMazeGenerator{
         int startcol= this.rand.nextInt((rows-1)/2)*2+1;
         Position startcell = mymaze.getStartPosition();
         mymaze.getMatrix()[startcell.getRowIndex()][startcell.getColumnIndex()]=0;
-        Position wall_r= new Position(startrow,startcol+1);
-        Position wall_l= new Position(startrow,startcol-1);
-        Position wall_a= new Position(startrow+1,startcol);
-        Position wall_b= new Position(startrow-1,startcol);
-
-        this.walls.add(wall_a);
-        this.walls.add(wall_b);
-        this.walls.add(wall_r);
-        this.walls.add(wall_l);
+        addWallsToList(startrow,startcol,mymaze);
 
         while (this.walls.size()!=0){
-            int i=this.rand.nextInt();
-            Position pos=this.walls.get(i); //chose wall randomly from list
-            if(mymaze.getMatrix()[pos.getRowIndex()][pos.getColumnIndex()]==1)//then not broken
-            {
+            int i=this.rand.nextInt(this.walls.size());
+            Position wall=this.walls.remove(i); //choose wall randomly from list
 
+            int row=wall.getRowIndex();
+            int col=wall.getColumnIndex();
+
+            Position[] neighbors=getWallSides(wall,mymaze);
+            if(neighbors==null){ //no sides to wall
+                continue;
             }
-        }
+            Position neighbor1= neighbors[0];
+            Position neighbor2= neighbors[2];
 
-        return null;
+            boolean cell1_is_pass = mymaze.getMatrix()[neighbor1.getRowIndex()][neighbor1.getColumnIndex()]==0;
+            boolean cell2_is_pass = mymaze.getMatrix()[neighbor2.getRowIndex()][neighbor2.getColumnIndex()]==0;
+
+            if ((cell1_is_pass && !cell2_is_pass) || (!cell1_is_pass && cell2_is_pass)){
+                mymaze.getMatrix()[row][col]=0; //break the wall and make it a pass.
+                Position newcell=cell1_is_pass ? neighbor2 : neighbor1;
+                mymaze.getMatrix()[newcell.getRowIndex()][newcell.getColumnIndex()]=0;//break the neighbor.
+                addWallsToList(newcell.getRowIndex(), newcell.getColumnIndex(), mymaze);
+            }
+
+        }
+        mymaze.setStartPosition(startcell);
+        mymaze.setGoalPosition(new Position(rows-2, cols-2)); //buttomn corner
+
+        return mymaze;
     }
 
+    private void addWallsToList(int row, int col, Maze maze){
+
+        int rowsnum= maze.getRows();
+        int colsnum= maze.getCols();
+        if(row+2 < rowsnum && maze.getMatrix()[row +2 ][col]==1){
+            this.walls.add(new Position(row+1,col));
+        }
+        if(row-2 < rowsnum && maze.getMatrix()[row-2][col]==1){
+            this.walls.add(new Position(row-1,col));
+        }
+        if(col+2 < colsnum && maze.getMatrix()[row][col+2]==1){
+            this.walls.add(new Position(row,col+1));
+        }
+        if(col-2 < colsnum && maze.getMatrix()[row][col-2]==1){
+            this.walls.add(new Position(row,col-1));
+        }
+
+    }
+
+    private Position[] getWallSides(Position wall, Maze maze)
+    {
+        int row= wall.getRowIndex();
+        int col= wall.getColumnIndex();
+
+        if (row%2==0 && col%2==1) {
+            Position pos1 = new Position(row - 1, col);
+            Position pos2 = new Position(row + 1, col);
+            return new Position[]{pos1, pos2};
+
+
+        } else if (row%2==1 && col%2==0) {
+            Position pos1= new Position(row, col-1);
+            Position pos2= new Position(row, col-1);
+            return new Position[]{pos1,pos2};
+
+        }
+        return null;
+    }
 }
+
+
+
+
 
 
 

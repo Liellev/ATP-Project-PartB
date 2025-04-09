@@ -17,6 +17,7 @@ public class Position {
         return this.col;
     }
 
-    public void print(){
+    public String toString(){
+       return "{"+ this.getRowIndex() + "," + this.getColumnIndex() + "}";
     }
 }

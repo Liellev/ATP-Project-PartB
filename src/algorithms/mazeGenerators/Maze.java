@@ -45,7 +45,21 @@ public class Maze {
 
 
     public void print(){
-        System.out.println("{"+ this.getRows() + "," + this.getCols() + "}");
+        System.out.println();
+        for (int i=0;i<this.getRows();i++){
+            for (int j=0;j<this.getCols();j++){
+                if(i==this.S.getRowIndex()&&j==this.S.getColumnIndex()){
+                    System.out.print("S");
+                } else if (i==this.E.getRowIndex()&&j==this.E.getColumnIndex()) {
+                    System.out.print("E");
+                }
+                else{
+                    System.out.print(this.matrix[i][j]);
+                }
+            }
+            System.out.println();
+        }
+
     }
 
     public Position getStartPosition(){
@@ -55,4 +69,14 @@ public class Maze {
     public Position getGoalPosition(){
         return this.E;
     }
+
+    public void setStartPosition(Position start){
+        this.S=start;
+    }
+
+    public void setGoalPosition(Position goal){
+        this.E=goal;
+    }
+
+
 }
