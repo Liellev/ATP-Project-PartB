@@ -23,9 +23,10 @@ public class MyMazeGenerator extends AMazeGenerator{
                 mymaze.getMatrix()[i][j]=1;
             }
         }
-        int startrow= this.rand.nextInt((rows-1)/2)*2+1;
-        int startcol= this.rand.nextInt((rows-1)/2)*2+1;
-        Position startcell = mymaze.getStartPosition();
+        int startrow = 1 + this.rand.nextInt((rows - 2) / 2) * 2;
+        int startcol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
+        Position startcell =new Position(startrow,startcol);
+        mymaze.setStartPosition(startcell);
         mymaze.getMatrix()[startcell.getRowIndex()][startcell.getColumnIndex()]=0;
         addWallsToList(startrow,startcol,mymaze);
 
@@ -41,7 +42,7 @@ public class MyMazeGenerator extends AMazeGenerator{
                 continue;
             }
             Position neighbor1= neighbors[0];
-            Position neighbor2= neighbors[2];
+            Position neighbor2= neighbors[1];
 
             boolean cell1_is_pass = mymaze.getMatrix()[neighbor1.getRowIndex()][neighbor1.getColumnIndex()]==0;
             boolean cell2_is_pass = mymaze.getMatrix()[neighbor2.getRowIndex()][neighbor2.getColumnIndex()]==0;
@@ -64,16 +65,16 @@ public class MyMazeGenerator extends AMazeGenerator{
 
         int rowsnum= maze.getRows();
         int colsnum= maze.getCols();
-        if(row+2 < rowsnum && maze.getMatrix()[row +2 ][col]==1){
+        if(row + 2 >= 0 && row+2 < rowsnum && maze.getMatrix()[row +2 ][col]==1){
             this.walls.add(new Position(row+1,col));
         }
-        if(row-2 < rowsnum && maze.getMatrix()[row-2][col]==1){
+        if(row - 2 >= 0 && row-2 < rowsnum && maze.getMatrix()[row-2][col]==1){
             this.walls.add(new Position(row-1,col));
         }
-        if(col+2 < colsnum && maze.getMatrix()[row][col+2]==1){
+        if(col+2 >= 0 && col+2 < colsnum && maze.getMatrix()[row][col+2]==1){
             this.walls.add(new Position(row,col+1));
         }
-        if(col-2 < colsnum && maze.getMatrix()[row][col-2]==1){
+        if(col-2 >= 0 && col-2 < colsnum && maze.getMatrix()[row][col-2]==1){
             this.walls.add(new Position(row,col-1));
         }
 
@@ -85,19 +86,34 @@ public class MyMazeGenerator extends AMazeGenerator{
         int col= wall.getColumnIndex();
 
         if (row%2==0 && col%2==1) {
-            Position pos1 = new Position(row - 1, col);
-            Position pos2 = new Position(row + 1, col);
-            return new Position[]{pos1, pos2};
+            int r1 = row - 1;
+            int r2 = row + 1;
+            if (isInBounds(r1, col, maze) && isInBounds(r2, col, maze)) {
+                return new Position[]{new Position(r1, col), new Position(r2, col)};
+            }
+            else{
+                return null;
+            }
 
 
         } else if (row%2==1 && col%2==0) {
-            Position pos1= new Position(row, col-1);
-            Position pos2= new Position(row, col-1);
-            return new Position[]{pos1,pos2};
+            int c1 = col - 1;
+            int c2 = col + 1;
+            if (isInBounds(row, c1, maze) && isInBounds(row, c2, maze)) {
+                return new Position[]{new Position(row, c1), new Position(row, c2)};
+            }
+            else {
+                return null;
+            }
 
         }
         return null;
     }
+
+    private boolean isInBounds(int row, int col, Maze maze) {
+        return row >= 0 && row < maze.getRows() && col >= 0 && col < maze.getCols();
+    }
+
 }
 
 
