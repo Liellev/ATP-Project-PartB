@@ -26,7 +26,14 @@ public class RunSearchOnMaze {
         System.out.println(diff);
 //Printing Solution Path
                 System.out.println("Solution path:");
+
         ArrayList<AState> solutionPath = solution.getSolutionPath();
+        if(solutionPath==null){
+            System.out.println("solution is null");
+            return;
+        }
+        int size=solutionPath.size();
+        System.out.println(size);
         for (int i = 0; i < solutionPath.size(); i++) {
             System.out.println(String.format("%s. %s",i,solutionPath.get(i)));
         }

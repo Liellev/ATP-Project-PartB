@@ -1,5 +1,7 @@
 package algorithms.mazeGenerators;
 
+import java.util.Objects;
+
 public class Position {
     private int row;
     private int col;
@@ -19,5 +21,23 @@ public class Position {
 
     public String toString(){
        return "{"+ this.getRowIndex() + "," + this.getColumnIndex() + "}";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.row,this.col);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this==obj){
+            return true;
+        }
+        if (obj==null || obj.getClass()!=this.getClass())
+        {
+            return false;
+        }
+        Position other=(Position) obj;
+        return (this.row== other.row && this.col== other.col);
     }
 }

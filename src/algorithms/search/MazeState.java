@@ -37,17 +37,17 @@ public class MazeState extends AState{
         if (this == obj){return true;}
         if (obj==null || getClass() != obj.getClass()){return false;}
         MazeState other= (MazeState) obj;
-        if(other.getMazeStatePosition().getRowIndex()==this.getMazeStatePosition().getRowIndex()||
-                other.getMazeStatePosition().getColumnIndex()==this.getMazeStatePosition().getColumnIndex())
+        if(this.state.equals(other.state))
         {
-            return true;
+           return true;
         }
-        return false;
+       return false;
     }
 
     @Override
     public int hashCode() {
         return this.state!= null ? this.state.hashCode() : 0;
+        //return this.state.hashCode();
     }
 
     public Position getMazeStatePosition(){
