@@ -1,8 +1,6 @@
 package algorithms.search;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Stack;
+import java.util.*;
 
 public class DepthFirstSearch extends ASearchingAlgorithm{
 
@@ -36,18 +34,31 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
         while(!this.stack.isEmpty()){
             AState curr=this.stack.peek();
             if(curr==s.getGoalState()){
-
+                break; //return solution
+            }
+            ArrayList<AState> neighbors =s.getAllPossibleStates(curr);
+            for(AState neighbor :neighbors){
+                if(!this.visited.contains(neighbor)){
+                    neighbor.setCameFrom(curr);
+                    this.stack.push(neighbor);
+                    this.visited.add(neighbor);
+                }
             }
         }
 
-        return null;
+        return getSoluitonPath(s.getGoalState());
     }
 
-    public Solution getSoluitonPath(AState goal){
-        ArrayList<AState> path= new ArrayList<>();
-        while (goal!=null){
-            path.add(goal);
-            goal=goal
+    public Solution getSoluitonPath(AState goal) {
+        ArrayList<AState> path = new ArrayList<>();
+        AState curr = goal;
+
+        while (curr != null) {
+            path.add(curr);
+            curr = curr.getCameFrom();
         }
+        Collections.reverse(path);
+        Solution sol = new Solution(path);
+        return sol;
     }
 }

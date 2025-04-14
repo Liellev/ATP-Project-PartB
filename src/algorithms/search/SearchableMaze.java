@@ -5,7 +5,7 @@ import algorithms.mazeGenerators.Position;
 
 import java.util.ArrayList;
 
-public class SearchableMaze {
+public class SearchableMaze implements ISearchable{
     private Maze maze;
 
     public ArrayList<AState> getAllPossibleStates(AState state) {
@@ -59,5 +59,17 @@ public class SearchableMaze {
             return false;
         }
         return this.maze.getRows() > pos.getRowIndex() && this.maze.getCols() > pos.getColumnIndex();
+    }
+
+    @Override
+    public AState getStartState() {
+        MazeState sstate=new MazeState(this.maze.getStartPosition());
+        return (AState) sstate;
+    }
+
+    @Override
+    public AState getGoalState() {
+        MazeState gstate=new MazeState(this.maze.getGoalPosition());
+        return (AState) gstate;
     }
 }
