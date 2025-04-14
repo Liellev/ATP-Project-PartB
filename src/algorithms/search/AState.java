@@ -20,4 +20,7 @@ public abstract class AState {
     @Override
     public abstract boolean equals(Object obj);
 
+    public void getastate(){
+        return;
+    }
 }
