@@ -1,6 +1,6 @@
 package algorithms.search;
 
-public class BreadthFirstSearch implements ISearchingAlgorithm{
+public class BreadthFirstSearch extends ASearchingAlgorithm{
 
 
     @Override
