@@ -31,8 +31,6 @@ public class SearchableMaze implements ISearchable{
         int row = mazeState.getMazeStatePosition().getRowIndex();
         int col = mazeState.getMazeStatePosition().getColumnIndex();
 
-        Position[] positions=new Position[8];
-        //change that to for loop
         for(int[]dir : directions) {
             int new_row = row + dir[0];
             int new_col = col + dir[1];

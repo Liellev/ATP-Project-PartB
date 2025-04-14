@@ -52,19 +52,6 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
         return null;
     }
 
-    public Solution getSoluitonPath(AState goal) {
-        ArrayList<AState> path = new ArrayList<>();
-        AState curr = goal;
-
-        while (curr != null) {
-            System.out.println(">> Adding to path: " + curr); // debug
-            path.add(curr);
-            curr = curr.getCameFrom();
-        }
-        Collections.reverse(path);
-        Solution sol = new Solution(path);
-        return sol;
-    }
 
     @Override
     public int getNumberOfNodesEvaluated() {
