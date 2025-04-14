@@ -17,7 +17,7 @@ public class RunSearchOnMaze {
         solveProblem(searchableMaze, new DepthFirstSearch());
         //solveProblem(searchableMaze, new BestFirstSearch());
     }
-    private static void solveProblem(ISearchable domain, ISearchingAlgorithm searcher) {
+    private static <AState> void solveProblem(ISearchable domain, ISearchingAlgorithm searcher) {
 //Solve a searching problem with a searcher
         long before=System.currentTimeMillis();
         Solution solution = searcher.solve(domain); System.out.println(String.format("'%s' algorithm - nodes evaluated: %s", searcher.getName(), searcher.getNumberOfNodesEvaluated()));
@@ -27,7 +27,7 @@ public class RunSearchOnMaze {
 //Printing Solution Path
                 System.out.println("Solution path:");
 
-        ArrayList<AState> solutionPath = solution.getSolutionPath();
+        ArrayList<AState> solutionPath = (ArrayList<AState>) solution.getSolutionPath();
         if(solutionPath==null){
             System.out.println("solution is null");
             return;

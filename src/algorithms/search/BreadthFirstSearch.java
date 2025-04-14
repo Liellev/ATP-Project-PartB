@@ -17,4 +17,10 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
     public Solution solve(ISearchable s) {
         return null;
     }
+
+    @Override
+    public Solution getSoluitonPath(AState goal) {
+        Solution Solutions = new Solution();
+        return null;
+    }
 }
