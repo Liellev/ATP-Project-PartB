@@ -2,7 +2,7 @@ package algorithms.search;
 
 public interface ISearchingAlgorithm {
 
-    int getNumberOfVisitedNodes();
+    int getNumberOfNodesEvaluated();
     String getName();
     Solution solve(ISearchable s);
 }

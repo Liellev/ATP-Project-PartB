@@ -13,12 +13,12 @@ public class MazeState extends AState{
 
     @Override
     public AState getCameFrom() {
-        return this.getCameFrom();
+        return super.getCameFrom();
     }
 
     @Override
     public void setCameFrom(AState cameFrom) {
-        this.setCameFrom(cameFrom);
+        super.setCameFrom(cameFrom);
     }
 
     @Override
@@ -36,9 +36,13 @@ public class MazeState extends AState{
     public boolean equals(Object obj) {
         if (this == obj){return true;}
         if (obj==null || getClass() != obj.getClass()){return false;}
-        MazeState state1= (MazeState) obj;
-        return this.state!=null ? this.state.equals(state1.state) : state1.state==null;
-
+        MazeState other= (MazeState) obj;
+        if(other.getMazeStatePosition().getRowIndex()==this.getMazeStatePosition().getRowIndex()||
+                other.getMazeStatePosition().getColumnIndex()==this.getMazeStatePosition().getColumnIndex())
+        {
+            return true;
+        }
+        return false;
     }
 
     @Override

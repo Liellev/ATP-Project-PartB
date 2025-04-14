@@ -4,8 +4,8 @@ public class BestFirstSearch extends BreadthFirstSearch{
 
 
     @Override
-    public int getNumberOfVisitedNodes() {
-        return super.getNumberOfVisitedNodes();
+    public int getNumberOfNodesEvaluated() {
+        return super.getNumberOfNodesEvaluated();
     }
 
     @Override

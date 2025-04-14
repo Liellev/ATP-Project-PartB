@@ -12,9 +12,11 @@ public class Solution {
 
     public Solution(ArrayList<AState> path){
         this.path=new ArrayList<>();
-        for (int i=0;i< path.size();i++){
-            this.path.add(path.get(i));
-        }
+        this.path.addAll(path);
+    }
+
+    public ArrayList<AState> getSolutionPath(){
+        return this.path;
     }
 
 }

@@ -4,7 +4,7 @@ public class BreadthFirstSearch implements ISearchingAlgorithm{
 
 
     @Override
-    public int getNumberOfVisitedNodes() {
+    public int getNumberOfNodesEvaluated() {
         return 0;
     }
 

@@ -4,19 +4,12 @@ import java.util.*;
 
 public class DepthFirstSearch extends ASearchingAlgorithm{
 
-    private int vnodes; //num of visited nodes
     private Stack<AState> stack;
     private HashSet<AState> visited;
 
     public DepthFirstSearch(){
-        this.vnodes=0;
         this.stack= new Stack<>();
         this.visited= new HashSet<>();
-    }
-
-    @Override
-    public int getNumberOfVisitedNodes() {
-        return super.getNumberOfVisitedNodes();
     }
 
     @Override
@@ -32,9 +25,9 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
         this.visited.add(start_state);
 
         while(!this.stack.isEmpty()){
-            AState curr=this.stack.peek();
-            if(curr==s.getGoalState()){
-                break; //return solution
+            AState curr=this.stack.pop();
+            if(curr.equals(s.getGoalState())){
+                return getSoluitonPath(curr); //return solution
             }
             ArrayList<AState> neighbors =s.getAllPossibleStates(curr);
             for(AState neighbor :neighbors){
@@ -46,7 +39,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
             }
         }
 
-        return getSoluitonPath(s.getGoalState());
+        return null;
     }
 
     public Solution getSoluitonPath(AState goal) {
@@ -61,4 +54,10 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
         Solution sol = new Solution(path);
         return sol;
     }
+
+    @Override
+    public int getNumberOfNodesEvaluated() {
+        return this.visited.size();
+    }
+
 }

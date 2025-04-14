@@ -8,6 +8,13 @@ import java.util.ArrayList;
 public class SearchableMaze implements ISearchable{
     private Maze maze;
 
+    public SearchableMaze(Maze maze){
+        if(maze!=null){
+            this.maze=maze;
+        }
+
+    }
+
     public ArrayList<AState> getAllPossibleStates(AState state) {
         int[][] directions = {
                 {-1, 0}, // above
@@ -44,11 +51,11 @@ public class SearchableMaze implements ISearchable{
                         this.maze.getMatrix()[horizontal.getRowIndex()][horizontal.getColumnIndex()] == 1) {
                     continue;
                 }
-                if (this.maze.getMatrix()[new_row][new_col] == 0) {
-                    MazeState neighbor = new MazeState(new_pos);
-                    neighbor.setCameFrom(state);
-                    successors.add(neighbor);
-                }
+            }
+            if (this.maze.getMatrix()[new_row][new_col] == 0) {
+                MazeState neighbor = new MazeState(new_pos);
+                neighbor.setCameFrom(state);
+                successors.add(neighbor);
             }
         }
         return successors;
