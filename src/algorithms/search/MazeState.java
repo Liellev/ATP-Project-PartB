@@ -1,13 +1,35 @@
 package algorithms.search;
 
-public class MazeState {
+import algorithms.mazeGenerators.Position;
 
-    private String state;
+public class MazeState extends AState{
+
+    private Position state; //using position as it is from maze generators.
     private double cost;
-    private MazeState camefrom;
 
-    public MazeState(String state){
+    public MazeState(Position state){
         this.state=state;
+    }
+
+    @Override
+    public AState getCameFrom() {
+        return this.getCameFrom();
+    }
+
+    @Override
+    public void setCameFrom(AState cameFrom) {
+        this.setCameFrom(cameFrom);
+    }
+
+    @Override
+    public double getCost() {
+        return this.cost;
+    }
+
+    @Override
+    public void setCost(double cost) {
+        this.cost=cost;
+
     }
 
     @Override
@@ -23,4 +45,10 @@ public class MazeState {
     public int hashCode() {
         return this.state!= null ? this.state.hashCode() : 0;
     }
+
+    public Position getMazeStatePosition(){
+        return this.state;
+    }
+
+
 }
