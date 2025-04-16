@@ -47,7 +47,6 @@ public class MazeState extends AState{
     @Override
     public int hashCode() {
         return this.state!= null ? this.state.hashCode() : 0;
-        //return this.state.hashCode();
     }
 
     public Position getMazeStatePosition(){

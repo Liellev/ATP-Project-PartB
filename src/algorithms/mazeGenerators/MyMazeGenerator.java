@@ -26,6 +26,7 @@ public class MyMazeGenerator extends AMazeGenerator{
         int startrow = 1 + this.rand.nextInt((rows - 2) / 2) * 2;
         int startcol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
         Position startcell =new Position(startrow,startcol);
+        Position lastVisitedCell= startcell;
         mymaze.setStartPosition(startcell);
         mymaze.getMatrix()[startcell.getRowIndex()][startcell.getColumnIndex()]=0;
         addWallsToList(startrow,startcol,mymaze);
@@ -50,13 +51,15 @@ public class MyMazeGenerator extends AMazeGenerator{
             if ((cell1_is_pass && !cell2_is_pass) || (!cell1_is_pass && cell2_is_pass)){
                 mymaze.getMatrix()[row][col]=0; //break the wall and make it a pass.
                 Position newcell=cell1_is_pass ? neighbor2 : neighbor1;
+                lastVisitedCell = newcell;
                 mymaze.getMatrix()[newcell.getRowIndex()][newcell.getColumnIndex()]=0;//break the neighbor.
                 addWallsToList(newcell.getRowIndex(), newcell.getColumnIndex(), mymaze);
             }
 
         }
         mymaze.setStartPosition(startcell);
-        mymaze.setGoalPosition(new Position(rows-2, cols-2)); //buttomn corner
+        mymaze.setGoalPosition(lastVisitedCell);
+
 
         return mymaze;
     }
