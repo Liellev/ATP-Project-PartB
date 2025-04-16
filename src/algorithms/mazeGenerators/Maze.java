@@ -78,5 +78,31 @@ public class Maze {
         this.E=goal;
     }
 
+    public Position generateStartCell(){
+
+        int startrow = 1 + this.rand.nextInt((rows - 2) / 2) * 2;
+        int startcol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
+
+        while(startrow!=0 && startrow!=this.getRows()-1 && startcol!=0 && startcol!=this.getCols()){
+            startrow= 1 + this.rand.nextInt((rows - 2) / 2) * 2;
+            startcol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
+        }
+        Position startcell =new Position(startrow,startcol);
+        return startcell;
+    }
+
+    public Position generateGoalCell(){
+
+        int goalrow = 1 + this.rand.nextInt((rows - 2) / 2) * 2;
+        int goalcol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
+
+        while(goalrow!=0 && goalrow!=this.getRows()-1 && goalcol!=0 && goalcol!=this.getCols()){
+            goalrow= 1 + this.rand.nextInt((rows - 2) / 2) * 2;
+            goalcol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
+        }
+        Position goalcell =new Position(goalrow,goalcol);
+        return goalcell;
+    }
+
 
 }

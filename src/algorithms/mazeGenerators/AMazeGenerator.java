@@ -1,9 +1,12 @@
 package algorithms.mazeGenerators;
 
+import java.util.Random;
+
 /**
  *
  */
 public abstract class AMazeGenerator implements IMazeGenerator {
+
     /**
      *
      * @param rows
@@ -18,5 +21,6 @@ public abstract class AMazeGenerator implements IMazeGenerator {
         long diff= after-before;
         return diff;
     }
+
 
 }
