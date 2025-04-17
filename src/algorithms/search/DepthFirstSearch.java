@@ -1,5 +1,4 @@
 package algorithms.search;
-
 import java.util.*;
 
 public class DepthFirstSearch extends ASearchingAlgorithm{
@@ -30,7 +29,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
             System.out.println("Goal Position: " + ((MazeState)s.getGoalState()).getMazeStatePosition());
             if (curr.equals(s.getGoalState())) {
                 System.out.println("Found goal state: " + curr);
-                return getSoluitonPath(curr);
+                return getSolutionPath(curr);
             }
             else{
                 System.out.println("Current: " + curr + " != Goal: " + s.getGoalState());

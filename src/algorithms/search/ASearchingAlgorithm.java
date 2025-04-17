@@ -11,7 +11,7 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
     @Override
     public abstract Solution solve(ISearchable s) ;
 
-    public Solution getSoluitonPath(AState goal) {
+    public Solution getSolutionPath(AState goal) {
         ArrayList<AState> path = new ArrayList<>();
         AState curr = goal;
 
