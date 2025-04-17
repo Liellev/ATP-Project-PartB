@@ -3,8 +3,8 @@ import java.util.*;
 
 public class BreadthFirstSearch extends ASearchingAlgorithm{
 
-    Queue<AState> queue = new LinkedList<>();
-    HashSet<AState> visited = new HashSet<>();
+    protected Queue<AState> queue = new LinkedList<>();
+    protected HashSet<AState> visited = new HashSet<>();
 
     @Override
     public int getNumberOfNodesEvaluated() {
@@ -14,6 +14,13 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
     @Override
     public String getName() {
         return "BreadthFirstSearch";
+    }
+
+    protected void processNeighbor(AState currentState, AState neighbor) {
+        neighbor.setCameFrom(currentState);
+        visited.add(neighbor);
+        neighbor.setCost(currentState.getCost() + 1);// for each move , similar cost
+        queue.add(neighbor);
     }
 
     @Override
@@ -28,33 +35,24 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
 
         while (!queue.isEmpty()) {
             AState currentState = queue.poll();
+            System.out.println("Dequeued: " + currentState);
             // for the situation that the first state is the goal state also
             if (currentState.equals(goalState)) {
+                System.out.println("Goal reached: " + currentState);
                 return getSolutionPath(currentState);
             }
 
             else {
                 ArrayList<AState> neighbors =s.getAllPossibleStates(currentState);
-                for (AState neighbor : neighbors) {
+                for (AState neighbor : s.getAllPossibleStates(currentState)) {
                     if (!visited.contains(neighbor)) {
-                        neighbor.setCameFrom(currentState);
-                        visited.add(neighbor);
-                        queue.add(neighbor);
+                        processNeighbor(currentState, neighbor);
                     }
                 }
+
             }
         }
         return null;
     }
 
-    @Override
-    public Solution getSolutionPath(AState goal) {
-        Solution Solutions = new Solution();
-        return null;
-    }
-
-//    @Override
-//    public ArrayList<AState> getAllPossibleStates(AState state){
-//        return null;
-//    }
 }

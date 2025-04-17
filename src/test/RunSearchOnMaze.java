@@ -13,10 +13,13 @@ public class RunSearchOnMaze {
         System.out.println(String.format("Start Position: %s", maze.getStartPosition())); // format "{row,column}"
         System.out.println(String.format("Goal Position: %s", maze.getGoalPosition())); // format "{row,column}"
         SearchableMaze searchableMaze = new SearchableMaze(maze);
-        //solveProblem(searchableMaze, new BreadthFirstSearch());
-        solveProblem(searchableMaze, new DepthFirstSearch());
+        solveProblem(searchableMaze, new BreadthFirstSearch());
+        //solveProblem(searchableMaze, new DepthFirstSearch());
         //solveProblem(searchableMaze, new BestFirstSearch());
     }
+
+
+
     private static <AState> void solveProblem(ISearchable domain, ISearchingAlgorithm searcher) {
 //Solve a searching problem with a searcher
         long before=System.currentTimeMillis();

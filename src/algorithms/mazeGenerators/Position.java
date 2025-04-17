@@ -3,8 +3,8 @@ package algorithms.mazeGenerators;
 import java.util.Objects;
 
 public class Position {
-    private int row;
-    private int col;
+     int row;
+     int col;
 
     public Position(int row,int col){
         this.row=row;
@@ -40,4 +40,5 @@ public class Position {
         Position other=(Position) obj;
         return (this.row== other.row && this.col== other.col);
     }
+
 }

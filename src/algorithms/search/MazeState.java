@@ -7,6 +7,7 @@ public class MazeState extends AState{
     private Position state; //using position as it is from maze generators.
     private double cost;
 
+
     public MazeState(Position state){
         this.state=state;
     }
@@ -54,5 +55,9 @@ public class MazeState extends AState{
         return this.state;
     }
 
+    @Override
+    public String toString() {
+        return state.toString();
+    }
 
 }
