@@ -44,7 +44,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
 
             else {
                 ArrayList<AState> neighbors =s.getAllPossibleStates(currentState);
-                for (AState neighbor : s.getAllPossibleStates(currentState)) {
+                for (AState neighbor : neighbors) {
                     if (!visited.contains(neighbor)) {
                         processNeighbor(currentState, neighbor);
                     }

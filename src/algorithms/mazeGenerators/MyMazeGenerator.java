@@ -16,6 +16,10 @@ public class MyMazeGenerator extends AMazeGenerator{
     @Override
     public Maze generate(int rows, int cols) {
 
+        // for even input
+        if (rows % 2 == 0) rows += 1;
+        if (cols % 2 == 0) cols += 1;
+
         Maze mymaze=new Maze(rows,cols);
 
         for(int i=0; i< mymaze.getRows();i++){
@@ -23,12 +27,12 @@ public class MyMazeGenerator extends AMazeGenerator{
                 mymaze.getMatrix()[i][j]=1;
             }
         }
-        int startrow = 1 + this.rand.nextInt((rows - 2) / 2) * 2;
-        int startcol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
-        Position startcell =new Position(startrow,startcol);
-        mymaze.setStartPosition(startcell);
-        mymaze.getMatrix()[startcell.getRowIndex()][startcell.getColumnIndex()]=0;
-        addWallsToList(startrow,startcol,mymaze);
+        int startRow = 1 + this.rand.nextInt((rows - 2) / 2) * 2;
+        int startCol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
+        Position startCell =new Position(startRow,startCol);
+        mymaze.setStartPosition(startCell);
+        mymaze.getMatrix()[startCell.getRowIndex()][startCell.getColumnIndex()]=0;
+        addWallsToList(startRow,startCol,mymaze);
 
         while (this.walls.size()!=0){
             int i=this.rand.nextInt(this.walls.size());
@@ -55,7 +59,7 @@ public class MyMazeGenerator extends AMazeGenerator{
             }
 
         }
-        mymaze.setStartPosition(startcell);
+        mymaze.setStartPosition(startCell);
         mymaze.setGoalPosition(new Position(rows-2, cols-2)); //buttomn corner
 
         return mymaze;
