@@ -1,0 +1,77 @@
+package algorithms.search;
+
+import algorithms.mazeGenerators.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class BestFirstSearchTest {
+
+    @Test
+    void getName() throws Exception {
+        BestFirstSearch best = new BestFirstSearch();
+        assertEquals(best.getName(), "BestFirstSearch");
+    }
+
+    @Test
+    void getNumberOfNodesEvaluated() throws Exception {
+        BestFirstSearch best = new BestFirstSearch();
+
+        IMazeGenerator mg = new MyMazeGenerator();
+        Maze maze = mg.generate(20, 20);
+        SearchableMaze searchableMaze = new SearchableMaze(maze);
+        Solution s = best.solve(searchableMaze);
+        assertTrue(best.getNumberOfNodesEvaluated() > 0, "Number of nodes evaluated should be greater than 0");
+    }
+
+    @Test
+    void solve() throws Exception {
+        BestFirstSearch best = new BestFirstSearch();
+        IMazeGenerator mg = new MyMazeGenerator();
+        Maze maze = mg.generate(20, 20);
+        SearchableMaze searchableMaze = new SearchableMaze(maze);
+        Solution s = best.solve(searchableMaze);
+        assertNotNull(s , "Solution should be not null");
+        assertFalse(s.getSolutionPath().isEmpty(), "Solution path should be not empty");
+
+        //different number of columns and rows
+        BestFirstSearch best1 = new BestFirstSearch();
+        IMazeGenerator mg1 = new MyMazeGenerator();
+        Maze maze1 = mg1.generate(10, 10);
+        SearchableMaze searchableMaze1 = new SearchableMaze(maze1);
+        Solution s1 = best1.solve(searchableMaze1);
+        assertNotNull(s1 , "Solution should be not null");
+        assertFalse(s1.getSolutionPath().isEmpty(), "Solution path should be not empty");
+
+    }
+
+    @Test
+    void processNeighbor() throws Exception {
+        BestFirstSearch best = new BestFirstSearch();
+
+        IMazeGenerator mg = new EmptyMazeGenerator();
+        Maze maze = mg.generate(5, 5);
+
+        maze.setStartPosition(new Position(2,2));
+        maze.setGoalPosition(new Position(4,4));
+        SearchableMaze searchableMaze = new SearchableMaze(maze);
+        Solution s = best.solve(searchableMaze);
+
+        MazeState start = new MazeState(maze.getStartPosition());
+        MazeState next = new MazeState(new Position(2,3));
+        best.processNeighbor(start,next);
+
+        assertEquals(start,next.getCameFrom());
+        assertEquals(10.0,best.computeMoveCost(start,next));
+
+        MazeState nextDiagonal = new MazeState(new Position(3,3));
+        best.processNeighbor(start,nextDiagonal);
+        assertEquals(start,nextDiagonal.getCameFrom());
+        assertEquals(15.0,best.computeMoveCost(start,nextDiagonal));
+    }
+
+   @Test
+    void getSolutionPath() throws Exception {}
+
+
+}
