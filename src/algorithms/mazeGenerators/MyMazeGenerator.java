@@ -68,17 +68,23 @@ public class MyMazeGenerator extends AMazeGenerator{
 
         int rowsnum= maze.getRows();
         int colsnum= maze.getCols();
+
+        ArrayList<Position> newWalls = new ArrayList<>();
+
         if(row + 2 >= 0 && row+2 < rowsnum && maze.getMatrix()[row +2 ][col]==1){
-            this.walls.add(new Position(row+1,col));
+            newWalls.add(new Position(row+1,col));
         }
         if(row - 2 >= 0 && row-2 < rowsnum && maze.getMatrix()[row-2][col]==1){
-            this.walls.add(new Position(row-1,col));
+            newWalls.add(new Position(row-1,col));
         }
         if(col+2 >= 0 && col+2 < colsnum && maze.getMatrix()[row][col+2]==1){
-            this.walls.add(new Position(row,col+1));
+            newWalls.add(new Position(row,col+1));
         }
         if(col-2 >= 0 && col-2 < colsnum && maze.getMatrix()[row][col-2]==1){
-            this.walls.add(new Position(row,col-1));
+            newWalls.add(new Position(row,col-1));
+
+            java.util.Collections.shuffle(newWalls, this.rand);
+            this.walls.addAll(newWalls);
         }
 
     }
@@ -120,6 +126,33 @@ public class MyMazeGenerator extends AMazeGenerator{
     public void blablo()
     {
         return;
+    }
+
+
+    public Maze createTrickyMaze() {
+        int[][] template = {
+                {0,0,0,1,0,0,0,0,0},
+                {1,1,0,1,0,1,1,0,1},
+                {0,0,0,1,0,0,0,0,1},
+                {0,1,1,1,0,1,1,0,1},
+                {0,0,0,0,0,0,0,0,1},
+                {1,0,1,1,1,1,0,1,1},
+                {1,0,0,0,0,0,0,0,0},
+                {1,1,1,1,1,1,1,1,1}
+        };
+
+        Maze maze = new Maze(8, 9);  // rows=8, cols=9
+        int[][] matrix = maze.getMatrix();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 9; j++) {
+                matrix[i][j] = template[i][j];
+            }
+        }
+
+        maze.setStartPosition(new Position(0, 0));
+        maze.setGoalPosition(new Position(0, 8));
+        return maze;
     }
 }
 

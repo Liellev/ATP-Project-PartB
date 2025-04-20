@@ -3,19 +3,17 @@ package test;
 import algorithms.mazeGenerators.IMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
-import algorithms.mazeGenerators.SimpleMazeGenerator;
 import algorithms.search.*;
 import java.util.ArrayList;
 
 public class RunSearchOnMaze {
     public static void main(String[] args) {
-        IMazeGenerator mg = new SimpleMazeGenerator();
-        Maze maze = mg.generate(200 , 200);
-        maze.print();
+        IMazeGenerator mg = new MyMazeGenerator();
+        Maze maze = mg.generate(20 , 20);
         System.out.println(String.format("Start Position: %s", maze.getStartPosition())); // format "{row,column}"
         System.out.println(String.format("Goal Position: %s", maze.getGoalPosition())); // format "{row,column}"
         SearchableMaze searchableMaze = new SearchableMaze(maze);
-        solveProblem(searchableMaze, new BreadthFirstSearch());
+        //solveProblem(searchableMaze, new BreadthFirstSearch());
         solveProblem(searchableMaze, new DepthFirstSearch());
         solveProblem(searchableMaze, new BestFirstSearch());
     }
