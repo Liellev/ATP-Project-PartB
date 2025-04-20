@@ -10,10 +10,14 @@ public class RunSearchOnMaze {
     public static void main(String[] args) {
         IMazeGenerator mg = new MyMazeGenerator();
         Maze maze = mg.generate(20 , 20);
+
+//        MyMazeGenerator mg = new MyMazeGenerator();
+//        Maze maze = mg.createTrickyMaze();
+
         System.out.println(String.format("Start Position: %s", maze.getStartPosition())); // format "{row,column}"
         System.out.println(String.format("Goal Position: %s", maze.getGoalPosition())); // format "{row,column}"
         SearchableMaze searchableMaze = new SearchableMaze(maze);
-        //solveProblem(searchableMaze, new BreadthFirstSearch());
+        solveProblem(searchableMaze, new BreadthFirstSearch());
         solveProblem(searchableMaze, new DepthFirstSearch());
         solveProblem(searchableMaze, new BestFirstSearch());
     }
