@@ -35,10 +35,8 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
 
         while (!queue.isEmpty()) {
             AState currentState = queue.poll();
-            System.out.println("Dequeued: " + currentState);
             // for the situation that the first state is the goal state also
             if (currentState.equals(goalState)) {
-                System.out.println("Goal reached: " + currentState);
                 return getSolutionPath(currentState);
             }
 

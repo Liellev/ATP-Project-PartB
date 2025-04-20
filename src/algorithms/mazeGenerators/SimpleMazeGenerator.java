@@ -10,49 +10,65 @@ public class SimpleMazeGenerator extends AMazeGenerator {
     public SimpleMazeGenerator(){
         this.rand=new Random();
     }
-    @Override
-    public Maze generate(int rows, int cols) {
 
-        Maze simple=new Maze(rows,cols);
+public Maze generate(int rows, int cols) {
+    Maze simple = new Maze(rows, cols);
 
-        //generate a maze full of 1(walls);
-        for(int i=0; i< simple.getRows();i++){
-            for(int j=0;j< simple.getCols();j++){
-                simple.getMatrix()[i][j]=1;
-            }
+    // מלא את כל התאים כקירות
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            simple.getMatrix()[i][j] = 1;
         }
-        simple.setStartPosition(simple.generateStartCell());
-        Position startcell=simple.getStartPosition();
-
-        simple.setGoalPosition(simple.generateGoalCell());
-        Position goalcell=simple.getGoalPosition();
-
-        simple.getMatrix()[goalcell.getRowIndex()][goalcell.getColumnIndex()]=0;
-
-        int row=startcell.getRowIndex(),col=startcell.getColumnIndex(); //starting from start cell
-        while (row!=goalcell.getRowIndex() || col!=goalcell.getColumnIndex()){
-            simple.getMatrix()[row][col]=0;//make the cell a pass
-
-            if(row<=goalcell.getRowIndex()){
-                row++;
-            } else if (row>=goalcell.getRowIndex()) {
-                row--;
-            } else if (col<goalcell.getColumnIndex()) {
-                col++;
-            } else if (col>goalcell.getColumnIndex()) {
-                col--;
-            }
-            simple.getMatrix()[row][col]=0;
-        }
-        for(int i=0; i< simple.getRows();i++){
-            for(int j=0;j< simple.getCols();j++){
-                if(simple.getMatrix()[i][j]==1)//only if it is a wall try to break it to keep existing paths.
-                {
-                    simple.getMatrix()[i][j]=this.rand.nextBoolean() ? 1 : 0;
-                }
-            }
-        }
-        return simple;
     }
+
+    // יצירת מיקום התחלתי בגבול (מסגרת)
+    int startRow, startCol;
+    if (rand.nextBoolean()) {
+        startRow = rand.nextBoolean() ? 0 : rows - 1;
+        startCol = rand.nextInt(cols);
+    } else {
+        startCol = rand.nextBoolean() ? 0 : cols - 1;
+        startRow = rand.nextInt(rows);
+    }
+    Position startcell = new Position(startRow, startCol);
+    simple.setStartPosition(startcell);
+
+    // יצירת מיקום סיום - פנימי ולא שווה להתחלה
+    int goalRow, goalCol;
+    do {
+        goalRow = 1 + rand.nextInt(rows - 2);
+        goalCol = 1 + rand.nextInt(cols - 2);
+    } while (goalRow == startRow && goalCol == startCol);
+
+    Position goal = new Position(goalRow, goalCol);
+    simple.setGoalPosition(goal);
+
+    // יצירת נתיב ישיר (למעלה/מטה ואז ימין/שמאל)
+    int row = startRow;
+    int col = startCol;
+
+    simple.getMatrix()[row][col] = 0;
+
+    while (row != goalRow) {
+        row += (goalRow > row) ? 1 : -1;
+        simple.getMatrix()[row][col] = 0;
+    }
+
+    while (col != goalCol) {
+        col += (goalCol > col) ? 1 : -1;
+        simple.getMatrix()[row][col] = 0;
+    }
+
+    // אחרי שיש מסלול תקין, פתח עוד תאים רנדומליים
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (simple.getMatrix()[i][j] == 1 && rand.nextDouble() < 0.3) {
+                simple.getMatrix()[i][j] = 0;
+            }
+        }
+    }
+
+    return simple;
+}
 
 }
