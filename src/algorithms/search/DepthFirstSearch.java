@@ -18,7 +18,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
 
     @Override
     public Solution solve(ISearchable s) {
-
+        if(s == null) return null;
         AState start_state= s.getStartState();
         this.stack.push(start_state);
         this.visited.add(start_state);

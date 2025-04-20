@@ -37,7 +37,7 @@ class BestFirstSearchTest {
         //different number of columns and rows
         BestFirstSearch best1 = new BestFirstSearch();
         IMazeGenerator mg1 = new MyMazeGenerator();
-        Maze maze1 = mg1.generate(10, 10);
+        Maze maze1 = mg1.generate(11, 10);
         SearchableMaze searchableMaze1 = new SearchableMaze(maze1);
         Solution s1 = best1.solve(searchableMaze1);
         assertNotNull(s1 , "Solution should be not null");
@@ -69,9 +69,31 @@ class BestFirstSearchTest {
         assertEquals(start,nextDiagonal.getCameFrom());
         assertEquals(15.0,best.computeMoveCost(start,nextDiagonal));
     }
+    @Test
+    void checkingNull() throws Exception {
 
+        BestFirstSearch best = new BestFirstSearch();
+        try {
+            Solution s = best.solve(null);
+            assertNull(s, "Expected null solution when input is null");
+        } catch (Exception e) {
+            fail("BestFirstSearch should handle null input gracefully, but got: " + e);
+        }
+    }
    @Test
-    void getSolutionPath() throws Exception {}
+    void checkingSolveWithoutSolution() throws Exception {
+        BestFirstSearch best = new BestFirstSearch();
+        IMazeGenerator mg = new EmptyMazeGenerator();
+        Maze maze = mg.generate(5, 5);
+        for (int i=0;i<5;i++) {
+            for (int j=0;j<5;j++) {
+                maze.getMatrix()[i][j]=1;
+            }
+        }
+        SearchableMaze searchableMaze = new SearchableMaze(maze);
+        Solution s  = best.solve(searchableMaze);
+        assertNull(s, "Expected null solution when all matrix is 1");
+   }
 
 
 }
