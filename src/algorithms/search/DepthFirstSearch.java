@@ -25,24 +25,16 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
 
         while(!this.stack.isEmpty()){
             AState curr=this.stack.pop();
-            System.out.println("Current Position: " + ((MazeState)curr).getMazeStatePosition());
-            System.out.println("Goal Position: " + ((MazeState)s.getGoalState()).getMazeStatePosition());
             if (curr.equals(s.getGoalState())) {
-                System.out.println("Found goal state: " + curr);
                 return getSolutionPath(curr);
-            }
-            else{
-                System.out.println("Current: " + curr + " != Goal: " + s.getGoalState());
             }
 
             ArrayList<AState> neighbors =s.getAllPossibleStates(curr);
-            System.out.println("Neighbors: " + neighbors.size());  // Debug print for neighbors
             for(AState neighbor :neighbors){
                 if(!this.visited.contains(neighbor)){
                     neighbor.setCameFrom(curr);
                     this.stack.push(neighbor);
                     this.visited.add(neighbor);
-                    System.out.println("Adding to stack: " + neighbor);  // Debug print for adding to stack
                 }
 
             }

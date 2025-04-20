@@ -30,7 +30,6 @@ public class SearchableMaze implements ISearchable{
         MazeState mazeState = (MazeState) state;
         int row = mazeState.getMazeStatePosition().getRowIndex();
         int col = mazeState.getMazeStatePosition().getColumnIndex();
-        System.out.println("Getting neighbors for: " + state);
         for(int[]dir : directions) {
             int new_row = row + dir[0];
             int new_col = col + dir[1];
@@ -51,7 +50,6 @@ public class SearchableMaze implements ISearchable{
                 }
             }
             if (this.maze.getMatrix()[new_row][new_col] == 0) {
-                System.out.println("  >> Possible neighbor: " + new_pos);
                 MazeState neighbor = new MazeState(new_pos);
                 neighbor.setCameFrom(state);
                 successors.add(neighbor);

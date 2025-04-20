@@ -16,10 +16,6 @@ public class MyMazeGenerator extends AMazeGenerator{
     @Override
     public Maze generate(int rows, int cols) {
 
-        // for even input
-        if (rows % 2 == 0) rows += 1;
-        if (cols % 2 == 0) cols += 1;
-
         Maze mymaze=new Maze(rows,cols);
 
         for(int i=0; i< mymaze.getRows();i++){
@@ -27,12 +23,13 @@ public class MyMazeGenerator extends AMazeGenerator{
                 mymaze.getMatrix()[i][j]=1;
             }
         }
-        int startRow = 1 + this.rand.nextInt((rows - 2) / 2) * 2;
-        int startCol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
-        Position startCell =new Position(startRow,startCol);
-        mymaze.setStartPosition(startCell);
-        mymaze.getMatrix()[startCell.getRowIndex()][startCell.getColumnIndex()]=0;
-        addWallsToList(startRow,startCol,mymaze);
+        int startrow = 1 + this.rand.nextInt((rows - 2) / 2) * 2;
+        int startcol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
+        Position startcell =new Position(startrow,startcol);
+        Position lastVisitedCell= startcell;
+        mymaze.setStartPosition(startcell);
+        mymaze.getMatrix()[startcell.getRowIndex()][startcell.getColumnIndex()]=0;
+        addWallsToList(startrow,startcol,mymaze);
 
         while (this.walls.size()!=0){
             int i=this.rand.nextInt(this.walls.size());
@@ -54,13 +51,15 @@ public class MyMazeGenerator extends AMazeGenerator{
             if ((cell1_is_pass && !cell2_is_pass) || (!cell1_is_pass && cell2_is_pass)){
                 mymaze.getMatrix()[row][col]=0; //break the wall and make it a pass.
                 Position newcell=cell1_is_pass ? neighbor2 : neighbor1;
+                lastVisitedCell = newcell;
                 mymaze.getMatrix()[newcell.getRowIndex()][newcell.getColumnIndex()]=0;//break the neighbor.
                 addWallsToList(newcell.getRowIndex(), newcell.getColumnIndex(), mymaze);
             }
 
         }
-        mymaze.setStartPosition(startCell);
-        mymaze.setGoalPosition(new Position(rows-2, cols-2)); //buttomn corner
+        mymaze.setStartPosition(startcell);
+        mymaze.setGoalPosition(lastVisitedCell);
+
 
         return mymaze;
     }
@@ -118,6 +117,10 @@ public class MyMazeGenerator extends AMazeGenerator{
         return row >= 0 && row < maze.getRows() && col >= 0 && col < maze.getCols();
     }
 
+    public void blablo()
+    {
+        return;
+    }
 }
 
 

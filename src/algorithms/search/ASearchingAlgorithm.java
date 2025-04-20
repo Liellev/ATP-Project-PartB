@@ -16,7 +16,6 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
         AState curr = goal;
 
         while (curr != null) {
-            System.out.println(">> Adding to path: " + curr); // debug
             path.add(curr);
             curr = curr.getCameFrom();
         }
