@@ -14,14 +14,12 @@ public class SimpleMazeGenerator extends AMazeGenerator {
 public Maze generate(int rows, int cols) {
     Maze simple = new Maze(rows, cols);
 
-    // מלא את כל התאים כקירות
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             simple.getMatrix()[i][j] = 1;
         }
     }
 
-    // יצירת מיקום התחלתי בגבול (מסגרת)
     int startRow, startCol;
     if (rand.nextBoolean()) {
         startRow = rand.nextBoolean() ? 0 : rows - 1;
@@ -33,7 +31,6 @@ public Maze generate(int rows, int cols) {
     Position startcell = new Position(startRow, startCol);
     simple.setStartPosition(startcell);
 
-    // יצירת מיקום סיום - פנימי ולא שווה להתחלה
     int goalRow, goalCol;
     do {
         goalRow = 1 + rand.nextInt(rows - 2);
@@ -43,7 +40,6 @@ public Maze generate(int rows, int cols) {
     Position goal = new Position(goalRow, goalCol);
     simple.setGoalPosition(goal);
 
-    // יצירת נתיב ישיר (למעלה/מטה ואז ימין/שמאל)
     int row = startRow;
     int col = startCol;
 
@@ -59,7 +55,6 @@ public Maze generate(int rows, int cols) {
         simple.getMatrix()[row][col] = 0;
     }
 
-    // אחרי שיש מסלול תקין, פתח עוד תאים רנדומליים
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             if (simple.getMatrix()[i][j] == 1 && rand.nextDouble() < 0.3) {
