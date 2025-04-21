@@ -1,4 +1,5 @@
 package algorithms.mazeGenerators;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Maze {
@@ -84,28 +85,46 @@ public class Maze {
 
     public Position generateStartCell(){
 
-        int startrow = 1 + this.rand.nextInt((rows - 2) / 2) * 2;
-        int startcol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
+        int edge = this.rand.nextInt(4); // 0=top, 1=bottom, 2=left, 3=right
+        int row = 0, col = 0;
 
-        while(startrow!=0 && startrow!=this.getRows()-1 && startcol!=0 && startcol!=this.getCols()){
-            startrow= 1 + this.rand.nextInt((rows - 2) / 2) * 2;
-            startcol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
+        switch (edge) {
+            case 0: row = 0; col = this.rand.nextInt(cols);
+                    break;
+            case 1: row = rows - 1; col = this.rand.nextInt(cols);
+                    break;
+            case 2: col = 0; row = this.rand.nextInt(rows);
+                    break;
+            case 3: col = cols - 1; row = this.rand.nextInt(rows);
+                    break;
         }
-        Position startcell =new Position(startrow,startcol);
+        Position startcell=new Position(row, col);
+        this.getMatrix()[startcell.getRowIndex()][startcell.getColumnIndex()]=0;
         return startcell;
     }
 
     public Position generateGoalCell(){
 
-        int goalrow = 1 + this.rand.nextInt((rows - 2) / 2) * 2;
-        int goalcol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
+        ArrayList<Position> edgePassages = new ArrayList<>();
 
-        while(goalrow!=0 && goalrow!=this.getRows()-1 && goalcol!=0 && goalcol!=this.getCols()){
-            goalrow= 1 + this.rand.nextInt((rows - 2) / 2) * 2;
-            goalcol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                boolean isEdge = row == 0 || row == rows - 1 || col == 0 || col == cols - 1;
+                boolean isPassage = this.getMatrix()[row][col] == 0;
+                Position pos = new Position(row, col);
+
+                if (isEdge && isPassage && !pos.equals(this.S)) {
+                    edgePassages.add(pos);
+                }
+            }
         }
-        Position startcell =new Position(goalrow,goalcol);
-        return startcell;
+
+        if (edgePassages.isEmpty()) {
+            // fallback: return any passage not equal to S, or just S if none
+            return this.S;
+        }
+
+        return edgePassages.get(rand.nextInt(edgePassages.size()));
     }
 
 

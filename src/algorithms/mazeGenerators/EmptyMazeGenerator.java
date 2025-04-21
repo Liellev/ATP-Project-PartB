@@ -12,6 +12,8 @@ public class EmptyMazeGenerator extends AMazeGenerator {
                 empty_maze.getMatrix()[i][j]=0;
             }
         }
+        empty_maze.setStartPosition(empty_maze.generateStartCell());
+        empty_maze.setGoalPosition(empty_maze.generateGoalCell());
         return empty_maze;
     }
 }

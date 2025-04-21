@@ -13,56 +13,147 @@ public class MyMazeGenerator extends AMazeGenerator{
         this.walls= new ArrayList<Position>();
 
     }
-    @Override
+//    @Override
+//    public Maze generate(int rows, int cols) {
+//
+//        Maze mymaze=new Maze(rows,cols);
+//
+//        for(int i=0; i< mymaze.getRows();i++){
+//            for(int j=0;j< mymaze.getCols();j++){
+//                mymaze.getMatrix()[i][j]=1;
+//            }
+//        }
+//
+//        Position startcell=mymaze.generateStartCell();
+//        Position lastVisitedCell= startcell;
+//        mymaze.setStartPosition(startcell);
+//        mymaze.getMatrix()[startcell.getRowIndex()][startcell.getColumnIndex()]=0;
+//        addWallsToList(startcell.getRowIndex(), startcell.getColumnIndex(),mymaze);
+//
+//        while (this.walls.size()!=0 ){
+//            int i=this.rand.nextInt(this.walls.size());
+//            Position wall=this.walls.remove(i); //choose wall randomly from list
+//
+//            int row=wall.getRowIndex();
+//            int col=wall.getColumnIndex();
+//
+//            Position[] neighbors=getWallSides(wall,mymaze);
+//            if(neighbors==null){ //no sides to wall
+//                continue;
+//            }
+//            Position neighbor1= neighbors[0];
+//            Position neighbor2= neighbors[1];
+//
+//            boolean cell1_is_pass = mymaze.getMatrix()[neighbor1.getRowIndex()][neighbor1.getColumnIndex()]==0;
+//            boolean cell2_is_pass = mymaze.getMatrix()[neighbor2.getRowIndex()][neighbor2.getColumnIndex()]==0;
+//
+//            if ((cell1_is_pass && !cell2_is_pass) || (!cell1_is_pass && cell2_is_pass)){
+//                mymaze.getMatrix()[row][col]=0; //break the wall and make it a pass.
+//                Position newcell=cell1_is_pass ? neighbor2 : neighbor1;
+//                lastVisitedCell = newcell;
+//                mymaze.getMatrix()[newcell.getRowIndex()][newcell.getColumnIndex()]=0;//break the neighbor.
+//                addWallsToList(newcell.getRowIndex(), newcell.getColumnIndex(), mymaze);
+//            }
+//
+//        }
+//
+//        mymaze.setStartPosition(startcell);
+//        mymaze.setGoalPosition(mymaze.generateGoalCell());
+//        //mymaze.setGoalPosition(lastVisitedCell);
+//
+//
+//        return mymaze;
+//    }
+
     public Maze generate(int rows, int cols) {
+        Maze mymaze = new Maze(rows, cols);
+        ArrayList<Position> edgePassages = new ArrayList<>();
 
-        Maze mymaze=new Maze(rows,cols);
-
-        for(int i=0; i< mymaze.getRows();i++){
-            for(int j=0;j< mymaze.getCols();j++){
-                mymaze.getMatrix()[i][j]=1;
+        // Initialize all cells as walls
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                mymaze.getMatrix()[i][j] = 1;
             }
         }
-        int startrow = 1 + this.rand.nextInt((rows - 2) / 2) * 2;
-        int startcol = 1 + this.rand.nextInt((cols - 2) / 2) * 2;
-        Position startcell =new Position(startrow,startcol);
-        Position lastVisitedCell= startcell;
+
+        // Generate start cell
+        Position startcell = mymaze.generateStartCell();
         mymaze.setStartPosition(startcell);
-        mymaze.getMatrix()[startcell.getRowIndex()][startcell.getColumnIndex()]=0;
-        addWallsToList(startrow,startcol,mymaze);
+        mymaze.getMatrix()[startcell.getRowIndex()][startcell.getColumnIndex()] = 0;
+        addWallsToList(startcell.getRowIndex(), startcell.getColumnIndex(), mymaze);
 
-        while (this.walls.size()!=0){
-            int i=this.rand.nextInt(this.walls.size());
-            Position wall=this.walls.remove(i); //choose wall randomly from list
+        while (!walls.isEmpty()) {
+            int i = rand.nextInt(walls.size());
+            Position wall = walls.remove(i);
 
-            int row=wall.getRowIndex();
-            int col=wall.getColumnIndex();
+            int row = wall.getRowIndex();
+            int col = wall.getColumnIndex();
 
-            Position[] neighbors=getWallSides(wall,mymaze);
-            if(neighbors==null){ //no sides to wall
-                continue;
-            }
-            Position neighbor1= neighbors[0];
-            Position neighbor2= neighbors[1];
+            Position[] neighbors = getWallSides(wall, mymaze);
+            if (neighbors == null) continue;
 
-            boolean cell1_is_pass = mymaze.getMatrix()[neighbor1.getRowIndex()][neighbor1.getColumnIndex()]==0;
-            boolean cell2_is_pass = mymaze.getMatrix()[neighbor2.getRowIndex()][neighbor2.getColumnIndex()]==0;
+            Position neighbor1 = neighbors[0];
+            Position neighbor2 = neighbors[1];
 
-            if ((cell1_is_pass && !cell2_is_pass) || (!cell1_is_pass && cell2_is_pass)){
-                mymaze.getMatrix()[row][col]=0; //break the wall and make it a pass.
-                Position newcell=cell1_is_pass ? neighbor2 : neighbor1;
-                lastVisitedCell = newcell;
-                mymaze.getMatrix()[newcell.getRowIndex()][newcell.getColumnIndex()]=0;//break the neighbor.
+            boolean cell1_is_pass = mymaze.getMatrix()[neighbor1.getRowIndex()][neighbor1.getColumnIndex()] == 0;
+            boolean cell2_is_pass = mymaze.getMatrix()[neighbor2.getRowIndex()][neighbor2.getColumnIndex()] == 0;
+
+            if ((cell1_is_pass && !cell2_is_pass) || (!cell1_is_pass && cell2_is_pass)) {
+                mymaze.getMatrix()[row][col] = 0;
+                Position newcell = cell1_is_pass ? neighbor2 : neighbor1;
+                mymaze.getMatrix()[newcell.getRowIndex()][newcell.getColumnIndex()] = 0;
+
+                // Only add if it's on edge and not the start
+                if (isOnEdge(newcell, mymaze) && !newcell.equals(startcell)) {
+                    edgePassages.add(newcell);
+                }
+
                 addWallsToList(newcell.getRowIndex(), newcell.getColumnIndex(), mymaze);
             }
-
         }
-        mymaze.setStartPosition(startcell);
-        mymaze.setGoalPosition(lastVisitedCell);
 
+        // Filter out startcell from edgePassages, just to be sure
+        //edgePassages.removeIf(pos -> pos.equals(startcell));
 
+        // Pick a goal from edgePassages
+        Position goal = null;
+        if (!edgePassages.isEmpty()) {
+            goal = edgePassages.get(rand.nextInt(edgePassages.size()));
+        } else {
+            // Fallback: find *any* different cell on edge that is a passage
+            ArrayList<Position> backup = new ArrayList<>();
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    Position p = new Position(i, j);
+                    if (isOnEdge(p, mymaze) && mymaze.getMatrix()[i][j] == 0 && !p.equals(startcell)) {
+                        backup.add(p);
+                    }
+                }
+            }
+            if (!backup.isEmpty()) {
+                goal = backup.get(rand.nextInt(backup.size()));
+            } else {
+                // Last resort: pick any different passage
+                for (int i = 0; i < rows && goal == null; i++) {
+                    for (int j = 0; j < cols && goal == null; j++) {
+                        Position p = new Position(i, j);
+                        if (mymaze.getMatrix()[i][j] == 0 && !p.equals(startcell)) {
+                            goal = p;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (goal == null || goal.equals(startcell)) {
+            return generate(rows, cols); // regenerate the maze
+        }
+        mymaze.setGoalPosition(goal);
         return mymaze;
     }
+
+
+
 
     private void addWallsToList(int row, int col, Maze maze){
 
@@ -123,9 +214,12 @@ public class MyMazeGenerator extends AMazeGenerator{
         return row >= 0 && row < maze.getRows() && col >= 0 && col < maze.getCols();
     }
 
-    public void blablo()
+    private boolean isOnEdge(Position pos, Maze maze)
     {
-        return;
+        if(pos.getRowIndex() == 0 || pos.getRowIndex() == maze.getRows()-1 || pos.getColumnIndex() ==0 || pos.getColumnIndex()==maze.getCols()-1){
+            return true;
+        }
+        return false;
     }
 
 

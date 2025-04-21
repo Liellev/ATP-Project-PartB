@@ -20,38 +20,39 @@ public Maze generate(int rows, int cols) {
         }
     }
 
-    int startRow, startCol;
-    if (rand.nextBoolean()) {
-        startRow = rand.nextBoolean() ? 0 : rows - 1;
-        startCol = rand.nextInt(cols);
-    } else {
-        startCol = rand.nextBoolean() ? 0 : cols - 1;
-        startRow = rand.nextInt(rows);
-    }
-    Position startcell = new Position(startRow, startCol);
+//    int startRow, startCol;
+//    if (rand.nextBoolean()) {
+//        startRow = rand.nextBoolean() ? 0 : rows - 1;
+//        startCol = rand.nextInt(cols);
+//    } else {
+//        startCol = rand.nextBoolean() ? 0 : cols - 1;
+//        startRow = rand.nextInt(rows);
+//    }
+
+    Position startcell = simple.generateStartCell();
     simple.setStartPosition(startcell);
 
-    int goalRow, goalCol;
-    do {
-        goalRow = 1 + rand.nextInt(rows - 2);
-        goalCol = 1 + rand.nextInt(cols - 2);
-    } while (goalRow == startRow && goalCol == startCol);
+//    int goalRow, goalCol;
+//    do {
+//        goalRow = 1 + rand.nextInt(rows - 2);
+//        goalCol = 1 + rand.nextInt(cols - 2);
+//    } while (goalRow == startcell.getRowIndex() && goalCol == startcell.getColumnIndex());
 
-    Position goal = new Position(goalRow, goalCol);
-    simple.setGoalPosition(goal);
+    Position goalCell =  simple.generateGoalCell();
+    simple.setGoalPosition(goalCell);
 
-    int row = startRow;
-    int col = startCol;
+    int row = startcell.getRowIndex();
+    int col = startcell.getColumnIndex();
 
     simple.getMatrix()[row][col] = 0;
 
-    while (row != goalRow) {
-        row += (goalRow > row) ? 1 : -1;
+    while (row != goalCell.getRowIndex()) {
+        row += (goalCell.getRowIndex() > row) ? 1 : -1;
         simple.getMatrix()[row][col] = 0;
     }
 
-    while (col != goalCol) {
-        col += (goalCol > col) ? 1 : -1;
+    while (col != goalCell.getColumnIndex()) {
+        col += (goalCell.getColumnIndex() > col) ? 1 : -1;
         simple.getMatrix()[row][col] = 0;
     }
 
