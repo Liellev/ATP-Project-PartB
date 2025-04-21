@@ -6,6 +6,9 @@ public class EmptyMazeGenerator extends AMazeGenerator {
 
     @Override
     public Maze generate(int rows, int cols) {
+        if( rows<=0 || cols<=0){
+            Maze empty_maze = new Maze();
+        }
         Maze empty_maze= new Maze(rows,cols);
         for (int i=0;i<empty_maze.getRows();i++){
             for (int j=0 ;j<empty_maze.getCols();j++){

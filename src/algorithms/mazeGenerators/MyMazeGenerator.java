@@ -66,6 +66,9 @@ public class MyMazeGenerator extends AMazeGenerator{
 //    }
 
     public Maze generate(int rows, int cols) {
+        if( rows<=0 || cols<=0){
+            Maze mymaze = new Maze();
+        }
         Maze mymaze = new Maze(rows, cols);
         ArrayList<Position> edgePassages = new ArrayList<>();
 
@@ -112,8 +115,6 @@ public class MyMazeGenerator extends AMazeGenerator{
             }
         }
 
-        // Filter out startcell from edgePassages, just to be sure
-        //edgePassages.removeIf(pos -> pos.equals(startcell));
 
         // Pick a goal from edgePassages
         Position goal = null;
@@ -132,17 +133,8 @@ public class MyMazeGenerator extends AMazeGenerator{
             }
             if (!backup.isEmpty()) {
                 goal = backup.get(rand.nextInt(backup.size()));
-            } else {
-                // Last resort: pick any different passage
-                for (int i = 0; i < rows && goal == null; i++) {
-                    for (int j = 0; j < cols && goal == null; j++) {
-                        Position p = new Position(i, j);
-                        if (mymaze.getMatrix()[i][j] == 0 && !p.equals(startcell)) {
-                            goal = p;
-                        }
-                    }
-                }
             }
+
         }
 
         if (goal == null || goal.equals(startcell)) {
