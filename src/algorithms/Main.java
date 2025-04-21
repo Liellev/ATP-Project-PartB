@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Main {
 
-    public static String m_resultsFileName = "results.txt";
+    public static String m_resultsFileName = "leo.txt";
 
     public static enum TestStatus {
         Passed, Failed
@@ -29,7 +29,7 @@ public class Main {
 
     private static int[][] getRowsColumnsCombinations() {
         int[][] rowsColumnsCombinations = {
-                {5, 5}
+                {100, 100}
         };
         return rowsColumnsCombinations;
     }
@@ -55,8 +55,6 @@ public class Main {
             // generate another maze
             Maze maze = mazeGenerator.generate(rows, columns);
             // prints the maze
-            System.out.println("Start: " + maze.generateStartCell());
-            System.out.println("Goal: " + maze.generateGoalCell());
             maze.print();
 
             // get the maze entrance
@@ -66,8 +64,8 @@ public class Main {
 
             // get goal position
             Position startGoalPosition = maze.getGoalPosition();
-            startPosition.getColumnIndex();
-            startPosition.getRowIndex();
+            startGoalPosition.getColumnIndex();
+            startGoalPosition.getRowIndex();
         } catch (Exception e) {
             testStatus = false;
         } finally {
@@ -94,6 +92,8 @@ public class Main {
                 SearchableMaze searchableMaze = new SearchableMaze(maze);
 
                 testPassed = solveProblem(searchableMaze, new BreadthFirstSearch(), rows, columns);
+                testPassed = solveProblem(searchableMaze, new DepthFirstSearch(), rows, columns);
+                testPassed = solveProblem(searchableMaze, new BestFirstSearch(), rows, columns);
 
             } catch (Exception e) {
                 appendToResultsFile(String.format("Fatal Error when converting Maze to SearchableMaze (%s,%s): %s", rows, columns, e.getMessage()));

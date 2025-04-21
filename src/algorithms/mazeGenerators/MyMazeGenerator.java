@@ -12,27 +12,28 @@ public class MyMazeGenerator extends AMazeGenerator {
         this.rand = new Random();
         this.walls = new ArrayList<>();
     }
-
     @Override
     public Maze generate(int rows, int cols) {
         if (rows <= 1 || cols <= 1)
-            return new Maze();
+            return new Maze(); // fallback על מבוך ריק אם קלט שגוי
 
         Maze maze = new Maze(rows, cols);
         this.walls = new ArrayList<>();
         Random rand = new Random();
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        // אתחול כל התאים כקירות
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
                 maze.getMatrix()[i][j] = 1;
-            }
-        }
 
+        // יצירת נקודת התחלה חוקית על הקצה
         Position start = maze.generateStartCell();
         maze.setStartPosition(start);
         maze.getMatrix()[start.getRowIndex()][start.getColumnIndex()] = 0;
+
         addWallsToList(start.getRowIndex(), start.getColumnIndex(), maze);
 
+        // יצירת המבוך עם קירות
         while (!walls.isEmpty()) {
             int i = rand.nextInt(walls.size());
             Position wall = walls.remove(i);
@@ -51,48 +52,55 @@ public class MyMazeGenerator extends AMazeGenerator {
             }
         }
 
-        // לנסות עד שנקבל נקודת סיום חוקית ששונה מהתחלה
-        Position goal = maze.generateGoalCell();
-        int attempts = 0;
-        while ((goal.equals(start) || goal == null) && attempts < 100) {
-            goal = maze.generateGoalCell();
-            attempts++;
+        // יצירת נקודת סיום חוקית על הקצה (שונה מהתחלה)
+        Position goal = null;
+        int maxTries = 100;
+        for (int tries = 0; tries < maxTries; tries++) {
+            Position candidate = maze.generateGoalCell();
+            if (candidate != null && !candidate.equals(start)) {
+                goal = candidate;
+                break;
+            }
         }
 
+        // fallback נוסף - סריקת כל הקצוות
         if (goal == null || goal.equals(start)) {
-            // fallback חכם: סריקה מלאה של קצוות פתוחים
-            ArrayList<Position> backup = new ArrayList<>();
+            ArrayList<Position> fallbackGoals = new ArrayList<>();
             for (int i = 0; i < rows; i++) {
                 if (maze.getMatrix()[i][0] == 0 && !(i == start.getRowIndex() && 0 == start.getColumnIndex()))
-                    backup.add(new Position(i, 0));
+                    fallbackGoals.add(new Position(i, 0));
                 if (maze.getMatrix()[i][cols - 1] == 0 && !(i == start.getRowIndex() && cols - 1 == start.getColumnIndex()))
-                    backup.add(new Position(i, cols - 1));
+                    fallbackGoals.add(new Position(i, cols - 1));
             }
             for (int j = 0; j < cols; j++) {
                 if (maze.getMatrix()[0][j] == 0 && !(0 == start.getRowIndex() && j == start.getColumnIndex()))
-                    backup.add(new Position(0, j));
+                    fallbackGoals.add(new Position(0, j));
                 if (maze.getMatrix()[rows - 1][j] == 0 && !(rows - 1 == start.getRowIndex() && j == start.getColumnIndex()))
-                    backup.add(new Position(rows - 1, j));
+                    fallbackGoals.add(new Position(rows - 1, j));
             }
-            if (!backup.isEmpty()) {
-                goal = backup.get(rand.nextInt(backup.size()));
-            } else {
-                // אם באמת אין אפשרות אחרת - בחר משהו פנימי
-                outer:
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        if (maze.getMatrix()[i][j] == 0 && !(i == start.getRowIndex() && j == start.getColumnIndex())) {
-                            goal = new Position(i, j);
-                            break outer;
-                        }
+            if (!fallbackGoals.isEmpty()) {
+                goal = fallbackGoals.get(rand.nextInt(fallbackGoals.size()));
+            }
+        }
+
+        // fallback קיצוני - אם אין נקודה בכלל, בחר תא פנימי
+        if (goal == null || goal.equals(start)) {
+            outer:
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    if (maze.getMatrix()[i][j] == 0 && !(i == start.getRowIndex() && j == start.getColumnIndex())) {
+                        goal = new Position(i, j);
+                        break outer;
                     }
                 }
             }
         }
 
         maze.setGoalPosition(goal);
+
         return maze;
     }
+
 
     private void addWallsToList(int row, int col, Maze maze) {
         ArrayList<Position> newWalls = new ArrayList<>();

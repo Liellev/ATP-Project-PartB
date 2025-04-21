@@ -1,5 +1,6 @@
 package algorithms.mazeGenerators;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Maze {
@@ -51,11 +52,16 @@ public class Maze {
 
     public void print(){
         System.out.println();
-        for (int i = 0; i < this.getRows(); i++) {
-            for (int j = 0; j < this.getCols(); j++) {
-                if (i == this.S.getRowIndex() && j == this.S.getColumnIndex()) {
+        for (int i=0;i<this.getRows();i++){
+            for (int j=0;j<this.getCols();j++){
+                boolean isStart = i == this.S.getRowIndex() && j == this.S.getColumnIndex();
+                boolean isGoal = i == this.E.getRowIndex() && j == this.E.getColumnIndex();
+
+                if (isStart && isGoal) {
+                    System.out.print("X"); // Start and Goal at same spot
+                } else if (isStart) {
                     System.out.print("S");
-                } else if (i == this.E.getRowIndex() && j == this.E.getColumnIndex()) {
+                } else if (isGoal) {
                     System.out.print("E");
                 } else {
                     System.out.print(this.matrix[i][j]);
@@ -63,7 +69,8 @@ public class Maze {
             }
             System.out.println();
         }
-    }
+}
+
 
 
     public Position getStartPosition(){
@@ -86,20 +93,24 @@ public class Maze {
         ArrayList<Position> edgeCells = new ArrayList<>();
 
         for (int i = 0; i < rows; i++) {
-            if (getMatrix()[i][0] == 1) edgeCells.add(new Position(i, 0));
-            if (getMatrix()[i][cols - 1] == 1) edgeCells.add(new Position(i, cols - 1));
+            edgeCells.add(new Position(i, 0));
+            edgeCells.add(new Position(i, cols - 1));
+        }
+        for (int j = 1; j < cols - 1; j++) {
+            edgeCells.add(new Position(0, j));
+            edgeCells.add(new Position(rows - 1, j));
         }
 
-        for (int j = 0; j < cols; j++) {
-            if (getMatrix()[0][j] == 1) edgeCells.add(new Position(0, j));
-            if (getMatrix()[rows - 1][j] == 1) edgeCells.add(new Position(rows - 1, j));
+        Collections.shuffle(edgeCells, rand);
+        for (Position pos : edgeCells) {
+            matrix[pos.getRowIndex()][pos.getColumnIndex()] = 0;
+            return pos;
         }
 
-        if (edgeCells.isEmpty()) return new Position(0, 0); // fallback
-        Position start = edgeCells.get(rand.nextInt(edgeCells.size()));
-        getMatrix()[start.getRowIndex()][start.getColumnIndex()] = 0;
-        return start;
+        return new Position(0, 0); // fallback
     }
+
+
 
     public Position generateGoalCell() {
         ArrayList<Position> edgePassages = new ArrayList<>();
@@ -111,18 +122,26 @@ public class Maze {
                 edgePassages.add(new Position(i, cols - 1));
         }
 
-        for (int j = 0; j < cols; j++) {
+        for (int j = 1; j < cols - 1; j++) {
             if (matrix[0][j] == 0 && !(0 == S.getRowIndex() && j == S.getColumnIndex()))
                 edgePassages.add(new Position(0, j));
             if (matrix[rows - 1][j] == 0 && !(rows - 1 == S.getRowIndex() && j == S.getColumnIndex()))
                 edgePassages.add(new Position(rows - 1, j));
         }
 
-        if (edgePassages.isEmpty()) {
-            // fallback: אם אין קצה פתוח, מחזיר את נקודת ההתחלה
-            return S;
+        if (!edgePassages.isEmpty()) {
+            return edgePassages.get(rand.nextInt(edgePassages.size()));
         }
-        return edgePassages.get(new Random().nextInt(edgePassages.size()));
+
+        for (int i = 0; i < rows; i++) {
+            if (i == S.getRowIndex()) continue;
+            matrix[i][0] = 0;
+            return new Position(i, 0);
+        }
+
+        matrix[rows - 1][cols - 1] = 0;
+        return new Position(rows - 1, cols - 1);
     }
+
 
 }
