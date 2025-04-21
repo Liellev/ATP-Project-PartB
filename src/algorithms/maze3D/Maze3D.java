@@ -54,9 +54,9 @@ public class Maze3D {
         for (int i=0;i<this.getDepth();i++){
             for (int j=0;j<this.getRows();j++) {
                 for( int k=0;k<this.getDepth();k++){
-                    if(i==this.S.getRowIndex()&&j==this.S.getColumnIndex()){
+                    if(i==this.S.getRowIndex()&&j==this.S.getColumnIndex()&& k==this.S.getDepthIndex()){
                         System.out.print("S");
-                    } else if (i==this.E.getRowIndex()&&j==this.E.getColumnIndex()) {
+                    } else if (i==this.E.getRowIndex()&&j==this.E.getColumnIndex()&& k==this.S.getDepthIndex()) {
                         System.out.print("E");
                     }
                     else{
@@ -88,36 +88,41 @@ public class Maze3D {
 
     public Position3D generateStartCell3D(){
 
-        int edge = this.rand.nextInt(4); // 0=top, 1=bottom, 2=left, 3=right
-        int row = 0, col = 0;
+        int edge = this.rand.nextInt(6);
+        int row = 0, col = 0, dep=0;
 
         switch (edge) {
-            case 0: row = 0; col = this.rand.nextInt(cols);
+            case 0: row = 0; col = this.rand.nextInt(cols);dep= this.rand.nextInt(depth);
                 break;
-            case 1: row = rows - 1; col = this.rand.nextInt(cols);
+            case 1: row = rows - 1; col = this.rand.nextInt(cols);dep =this.rand.nextInt(depth);
                 break;
-            case 2: col = 0; row = this.rand.nextInt(rows);
+            case 2: col = 0; row = this.rand.nextInt(rows);dep =this.rand.nextInt(depth);
                 break;
-            case 3: col = cols - 1; row = this.rand.nextInt(rows);
+            case 3: col = cols - 1; row = this.rand.nextInt(rows);dep= this.rand.nextInt(depth);
+                break;
+            case 4: dep=0; row = this.rand.nextInt(rows);col=this.rand.nextInt(cols);
+                break;
+            case 5: dep=depth-1; row = this.rand.nextInt(rows);col=this.rand.nextInt(cols);
                 break;
         }
-        Position startcell=new Position(row, col);
-        this.getMatrix()[startcell.getRowIndex()][startcell.getColumnIndex()]=0;
+        Position3D startcell=new Position3D(depth,row, col);
+        this.getMap()[startcell.getDepthIndex()][startcell.getRowIndex()][startcell.getColumnIndex()]=0;
         return startcell;
     }
 
     public Position3D generateGoalCell3D(){
 
-        ArrayList<Position> edgePassages = new ArrayList<>();
+        ArrayList<Position3D> edgePassages = new ArrayList<>();
+        for(int dep= 0; dep< depth ;dep++) {
+            for (int row = 0; row < rows; row++) {
+                for (int col = 0; col < cols; col++) {
+                    boolean isEdge = dep==0 || dep==depth-1 || row == 0 || row == rows - 1 || col == 0 || col == cols - 1;
+                    boolean isPassage = this.getMap()[dep][row][col] == 0;
+                    Position3D pos = new Position3D(dep,row, col);
 
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                boolean isEdge = row == 0 || row == rows - 1 || col == 0 || col == cols - 1;
-                boolean isPassage = this.getMatrix()[row][col] == 0;
-                Position pos = new Position(row, col);
-
-                if (isEdge && isPassage && !pos.equals(this.S)) {
-                    edgePassages.add(pos);
+                    if (isEdge && isPassage && !pos.equals(this.S)) {
+                        edgePassages.add(pos);
+                    }
                 }
             }
         }

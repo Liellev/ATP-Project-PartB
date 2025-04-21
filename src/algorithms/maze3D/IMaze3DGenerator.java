@@ -3,7 +3,7 @@ package algorithms.maze3D;
 import algorithms.mazeGenerators.Maze;
 
 public interface IMaze3DGenerator {
-    public Maze generate(int depth, int rows, int cols);
+    public Maze3D generate(int depth, int rows, int cols);
 
     /**
      *

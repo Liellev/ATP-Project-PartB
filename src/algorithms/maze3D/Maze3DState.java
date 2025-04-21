@@ -1,8 +1,8 @@
 package algorithms.maze3D;
 
-import algorithms.mazeGenerators.Position;
+import algorithms.maze3D.Position3D;
 import algorithms.search.AState;
-import algorithms.search.MazeState;
+
 
 public class Maze3DState extends AState {
     private Position3D state; //using position as it is from maze generators.

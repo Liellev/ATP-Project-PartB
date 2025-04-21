@@ -1,13 +1,11 @@
 package algorithms.maze3D;
 
-import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.Position;
 import algorithms.search.AState;
-import algorithms.search.MazeState;
+import algorithms.search.ISearchable;
 
 import java.util.ArrayList;
 
-public class SearchableMaze3D {
+public class SearchableMaze3D implements ISearchable {
     private Maze3D maze;
 
     public SearchableMaze3D(Maze3D maze){
@@ -19,40 +17,30 @@ public class SearchableMaze3D {
 
     public ArrayList<AState> getAllPossibleStates(AState state) {
         int[][] directions = {
-                {-1, 0}, // above
-                {1, 0},  // below
-                {0, -1}, // left
-                {0, 1},   // right
-                {-1, -1}, //left above
-                {1, -1}, //right above
-                {1, 1}, // right below
-                {-1, 1} // left below
+                {0, 0, 1},   // ימינה (col + 1)
+                {0, 0, -1},  // שמאלה (col - 1)
+                {0, 1, 0},   // למטה (row + 1)
+                {0, -1, 0},  // למעלה (row - 1)
+                {1, 0, 0},   // קדימה בעומק (depth + 1)
+                {-1, 0, 0}   // אחורה בעומק (depth - 1)
         };
         ArrayList<AState> successors = new ArrayList<>();
-        MazeState mazeState = (MazeState) state;
-        int row = mazeState.getMazeStatePosition().getRowIndex();
-        int col = mazeState.getMazeStatePosition().getColumnIndex();
+        Maze3DState mazeState = (Maze3DState) state;
+        int row = mazeState.getMaze3DStatePosition().getRowIndex();
+        int col = mazeState.getMaze3DStatePosition().getColumnIndex();
+        int depth= mazeState.getMaze3DStatePosition().getDepthIndex();
+
         for(int[]dir : directions) {
+            int new_dep= depth+dir[2];
             int new_row = row + dir[0];
             int new_col = col + dir[1];
-            Position new_pos = new Position(new_row, new_col);
+            Position3D new_pos = new Position3D(new_dep,new_row, new_col);
             if (!valid(new_pos)) {
                 continue;
             }
-            //check diagonals
-            if (dir[0] != 0 && dir[1] != 0) {
-                Position vertical = new Position(row + dir[0], col);
-                Position horizontal = new Position(row, col + dir[1]);
-                if (!valid(vertical) || !valid(horizontal)) { //if one of the cells in the way to diagonal are invalid then there is no point to check diagonal.
-                    continue;
-                }
-                if (this.maze.getMatrix()[vertical.getRowIndex()][vertical.getColumnIndex()] == 1 ||
-                        this.maze.getMatrix()[horizontal.getRowIndex()][horizontal.getColumnIndex()] == 1) {
-                    continue;
-                }
-            }
-            if (this.maze.getMatrix()[new_row][new_col] == 0) {
-                MazeState neighbor = new MazeState(new_pos);
+
+            if (this.maze.getMap()[new_dep][new_row][new_col] == 0) {
+                Maze3DState neighbor = new Maze3DState(new_pos);
                 neighbor.setCameFrom(state);
                 successors.add(neighbor);
             }
@@ -60,22 +48,22 @@ public class SearchableMaze3D {
         return successors;
     }
 
-    public boolean valid(Position pos) {
-        if (pos.getColumnIndex() < 0 || pos.getRowIndex() < 0) {
+    public boolean valid(Position3D pos) {
+        if (pos.getColumnIndex() < 0 || pos.getRowIndex() < 0 || pos.getDepthIndex()<0) {
             return false;
         }
-        return this.maze.getRows() > pos.getRowIndex() && this.maze.getCols() > pos.getColumnIndex();
+        return this.maze.getRows() > pos.getRowIndex() && this.maze.getCols() > pos.getColumnIndex() && this.maze.getDepth() > pos.getDepthIndex();
     }
 
     @Override
     public AState getStartState() {
-        MazeState sstate=new MazeState(this.maze.getStartPosition());
+        Maze3DState sstate=new Maze3DState(this.maze.getStartPosition());
         return (AState) sstate;
     }
 
     @Override
     public AState getGoalState() {
-        MazeState gstate=new MazeState(this.maze.getGoalPosition());
+        Maze3DState gstate=new Maze3DState(this.maze.getGoalPosition());
         return (AState) gstate;
     }
 }
