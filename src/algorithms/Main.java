@@ -55,6 +55,8 @@ public class Main {
             // generate another maze
             Maze maze = mazeGenerator.generate(rows, columns);
             // prints the maze
+            System.out.println("Start: " + maze.generateStartCell());
+            System.out.println("Goal: " + maze.generateGoalCell());
             maze.print();
 
             // get the maze entrance

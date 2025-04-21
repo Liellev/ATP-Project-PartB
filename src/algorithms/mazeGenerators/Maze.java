@@ -51,21 +51,20 @@ public class Maze {
 
     public void print(){
         System.out.println();
-        for (int i=0;i<this.getRows();i++){
-            for (int j=0;j<this.getCols();j++){
-                if(i==this.S.getRowIndex()&&j==this.S.getColumnIndex()){
+        for (int i = 0; i < this.getRows(); i++) {
+            for (int j = 0; j < this.getCols(); j++) {
+                if (i == this.S.getRowIndex() && j == this.S.getColumnIndex()) {
                     System.out.print("S");
-                } else if (i==this.E.getRowIndex()&&j==this.E.getColumnIndex()) {
+                } else if (i == this.E.getRowIndex() && j == this.E.getColumnIndex()) {
                     System.out.print("E");
-                }
-                else{
+                } else {
                     System.out.print(this.matrix[i][j]);
                 }
             }
             System.out.println();
         }
-
     }
+
 
     public Position getStartPosition(){
         return this.S;
@@ -83,49 +82,47 @@ public class Maze {
         this.E=goal;
     }
 
-    public Position generateStartCell(){
+    public Position generateStartCell() {
+        ArrayList<Position> edgeCells = new ArrayList<>();
 
-        int edge = this.rand.nextInt(4); // 0=top, 1=bottom, 2=left, 3=right
-        int row = 0, col = 0;
-
-        switch (edge) {
-            case 0: row = 0; col = this.rand.nextInt(cols);
-                    break;
-            case 1: row = rows - 1; col = this.rand.nextInt(cols);
-                    break;
-            case 2: col = 0; row = this.rand.nextInt(rows);
-                    break;
-            case 3: col = cols - 1; row = this.rand.nextInt(rows);
-                    break;
+        for (int i = 0; i < rows; i++) {
+            if (getMatrix()[i][0] == 1) edgeCells.add(new Position(i, 0));
+            if (getMatrix()[i][cols - 1] == 1) edgeCells.add(new Position(i, cols - 1));
         }
-        Position startcell=new Position(row, col);
-        this.getMatrix()[startcell.getRowIndex()][startcell.getColumnIndex()]=0;
-        return startcell;
+
+        for (int j = 0; j < cols; j++) {
+            if (getMatrix()[0][j] == 1) edgeCells.add(new Position(0, j));
+            if (getMatrix()[rows - 1][j] == 1) edgeCells.add(new Position(rows - 1, j));
+        }
+
+        if (edgeCells.isEmpty()) return new Position(0, 0); // fallback
+        Position start = edgeCells.get(rand.nextInt(edgeCells.size()));
+        getMatrix()[start.getRowIndex()][start.getColumnIndex()] = 0;
+        return start;
     }
 
-    public Position generateGoalCell(){
-
+    public Position generateGoalCell() {
         ArrayList<Position> edgePassages = new ArrayList<>();
 
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                boolean isEdge = row == 0 || row == rows - 1 || col == 0 || col == cols - 1;
-                boolean isPassage = this.getMatrix()[row][col] == 0;
-                Position pos = new Position(row, col);
+        for (int i = 0; i < rows; i++) {
+            if (matrix[i][0] == 0 && !(i == S.getRowIndex() && 0 == S.getColumnIndex()))
+                edgePassages.add(new Position(i, 0));
+            if (matrix[i][cols - 1] == 0 && !(i == S.getRowIndex() && cols - 1 == S.getColumnIndex()))
+                edgePassages.add(new Position(i, cols - 1));
+        }
 
-                if (isEdge && isPassage && !pos.equals(this.S)) {
-                    edgePassages.add(pos);
-                }
-            }
+        for (int j = 0; j < cols; j++) {
+            if (matrix[0][j] == 0 && !(0 == S.getRowIndex() && j == S.getColumnIndex()))
+                edgePassages.add(new Position(0, j));
+            if (matrix[rows - 1][j] == 0 && !(rows - 1 == S.getRowIndex() && j == S.getColumnIndex()))
+                edgePassages.add(new Position(rows - 1, j));
         }
 
         if (edgePassages.isEmpty()) {
-            // fallback: return any passage not equal to S, or just S if none
-            return this.S;
+            // fallback: אם אין קצה פתוח, מחזיר את נקודת ההתחלה
+            return S;
         }
-
-        return edgePassages.get(rand.nextInt(edgePassages.size()));
+        return edgePassages.get(new Random().nextInt(edgePassages.size()));
     }
-
 
 }
