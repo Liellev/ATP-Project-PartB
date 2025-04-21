@@ -17,7 +17,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
     @Override
     public Maze3D generate(int depth, int rows, int cols) {
         if (depth <= 0 || rows <= 0 || cols <= 0) {
-            return new Maze3D(); // מחזיר מבוך ריק/ברירת מחדל אם הפרמטרים לא תקינים
+            Maze3D mymaze3D= new Maze3D(); // מחזיר מבוך ריק/ברירת מחדל אם הפרמטרים לא תקינים
         }
 
         Maze3D mymaze3D = new Maze3D(depth, rows, cols);

@@ -22,7 +22,7 @@ public class BestFirstSearch extends BreadthFirstSearch{
 
     @Override
     public void processNeighbor(AState currentState, AState neighbor) {
-        double moveCost = computeMoveCost((MazeState) currentState, (MazeState) neighbor);
+        double moveCost = computeMoveCost((MazeState) currentState,(MazeState) neighbor);
         neighbor.setCost(currentState.getCost() + moveCost);
         neighbor.setCameFrom(currentState);
         visited.add(neighbor);
