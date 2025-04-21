@@ -63,7 +63,6 @@ public class MyMazeGenerator extends AMazeGenerator {
             }
         }
 
-        // fallback נוסף - סריקת כל הקצוות
         if (goal == null || goal.equals(start)) {
             ArrayList<Position> fallbackGoals = new ArrayList<>();
             for (int i = 0; i < rows; i++) {
