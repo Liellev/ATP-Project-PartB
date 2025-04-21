@@ -29,6 +29,7 @@ public class Maze3D {
         {
             this.rows=rows;
             this.cols=cols;
+            this.depth=depth;
             this.matrix= new int[this.depth][this.rows][this.cols];
             this.rand=new Random();
         }
@@ -105,7 +106,7 @@ public class Maze3D {
             case 5: dep=depth-1; row = this.rand.nextInt(rows);col=this.rand.nextInt(cols);
                 break;
         }
-        Position3D startcell=new Position3D(depth,row, col);
+        Position3D startcell=new Position3D(dep,row, col);
         this.getMap()[startcell.getDepthIndex()][startcell.getRowIndex()][startcell.getColumnIndex()]=0;
         return startcell;
     }
