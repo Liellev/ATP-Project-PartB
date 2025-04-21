@@ -66,10 +66,11 @@ public class MyMazeGenerator extends AMazeGenerator{
 //    }
 
     public Maze generate(int rows, int cols) {
-        if( rows<=0 || cols<=0){
+        if( rows <=2 || cols <=2 ){
             Maze mymaze = new Maze();
         }
         Maze mymaze = new Maze(rows, cols);
+        this.walls.clear();
         ArrayList<Position> edgePassages = new ArrayList<>();
 
         // Initialize all cells as walls
