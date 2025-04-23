@@ -29,7 +29,7 @@ public class Main {
 
     private static int[][] getRowsColumnsCombinations() {
         int[][] rowsColumnsCombinations = {
-                {100, 100}
+                {51, 33}
         };
         return rowsColumnsCombinations;
     }

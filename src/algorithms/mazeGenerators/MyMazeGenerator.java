@@ -1,8 +1,6 @@
 package algorithms.mazeGenerators;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 public class MyMazeGenerator extends AMazeGenerator {
     private Random rand;
@@ -14,90 +12,82 @@ public class MyMazeGenerator extends AMazeGenerator {
     }
     @Override
     public Maze generate(int rows, int cols) {
-        if (rows <= 1 || cols <= 1)
-            return new Maze(); // fallback על מבוך ריק אם קלט שגוי
+        if (rows <= 1 || cols <= 1) return new Maze();
 
         Maze maze = new Maze(rows, cols);
-        this.walls = new ArrayList<>();
-        Random rand = new Random();
+        int[][] grid = maze.getMatrix();
 
-        // אתחול כל התאים כקירות
+        // Fill grid with walls
         for (int i = 0; i < rows; i++)
-            for (int j = 0; j < cols; j++)
-                maze.getMatrix()[i][j] = 1;
+            Arrays.fill(grid[i], 1);
 
-        // יצירת נקודת התחלה חוקית על הקצה
-        Position start = maze.generateStartCell();
-        maze.setStartPosition(start);
-        maze.getMatrix()[start.getRowIndex()][start.getColumnIndex()] = 0;
+        // Random starting point
+        int startRow = rand.nextInt(rows);
+        int startCol = rand.nextInt(cols);
+        grid[startRow][startCol] = 0;
 
-        addWallsToList(start.getRowIndex(), start.getColumnIndex(), maze);
-
-        // יצירת המבוך עם קירות
+        List<Position> walls = getNeighboringWalls(startRow, startCol, grid);
         while (!walls.isEmpty()) {
-            int i = rand.nextInt(walls.size());
-            Position wall = walls.remove(i);
-            Position[] neighbors = getWallSides(wall, maze);
-            if (neighbors == null) continue;
-
-            Position cell1 = neighbors[0], cell2 = neighbors[1];
-            boolean pass1 = maze.getMatrix()[cell1.getRowIndex()][cell1.getColumnIndex()] == 0;
-            boolean pass2 = maze.getMatrix()[cell2.getRowIndex()][cell2.getColumnIndex()] == 0;
-
-            if (pass1 ^ pass2) {
-                maze.getMatrix()[wall.getRowIndex()][wall.getColumnIndex()] = 0;
-                Position newcell = pass1 ? cell2 : cell1;
-                maze.getMatrix()[newcell.getRowIndex()][newcell.getColumnIndex()] = 0;
-                addWallsToList(newcell.getRowIndex(), newcell.getColumnIndex(), maze);
+            Position wall = walls.remove(rand.nextInt(walls.size()));
+            if (canBePassage(wall, grid)) {
+                grid[wall.getRowIndex()][wall.getColumnIndex()] = 0;
+                walls.addAll(getNeighboringWalls(wall.getRowIndex(), wall.getColumnIndex(), grid));
             }
         }
 
-        // יצירת נקודת סיום חוקית על הקצה (שונה מהתחלה)
-        Position goal = null;
-        int maxTries = 100;
-        for (int tries = 0; tries < maxTries; tries++) {
-            Position candidate = maze.generateGoalCell();
-            if (candidate != null && !candidate.equals(start)) {
-                goal = candidate;
-                break;
-            }
-        }
+        // Choose valid edge start and goal
+        List<Position> edgePassages = getEdgePassages(grid);
+        if (edgePassages.size() < 2) return generate(rows, cols); // fallback
 
-        if (goal == null || goal.equals(start)) {
-            ArrayList<Position> fallbackGoals = new ArrayList<>();
-            for (int i = 0; i < rows; i++) {
-                if (maze.getMatrix()[i][0] == 0 && !(i == start.getRowIndex() && 0 == start.getColumnIndex()))
-                    fallbackGoals.add(new Position(i, 0));
-                if (maze.getMatrix()[i][cols - 1] == 0 && !(i == start.getRowIndex() && cols - 1 == start.getColumnIndex()))
-                    fallbackGoals.add(new Position(i, cols - 1));
-            }
-            for (int j = 0; j < cols; j++) {
-                if (maze.getMatrix()[0][j] == 0 && !(0 == start.getRowIndex() && j == start.getColumnIndex()))
-                    fallbackGoals.add(new Position(0, j));
-                if (maze.getMatrix()[rows - 1][j] == 0 && !(rows - 1 == start.getRowIndex() && j == start.getColumnIndex()))
-                    fallbackGoals.add(new Position(rows - 1, j));
-            }
-            if (!fallbackGoals.isEmpty()) {
-                goal = fallbackGoals.get(rand.nextInt(fallbackGoals.size()));
-            }
-        }
-
-        // fallback קיצוני - אם אין נקודה בכלל, בחר תא פנימי
-        if (goal == null || goal.equals(start)) {
-            outer:
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    if (maze.getMatrix()[i][j] == 0 && !(i == start.getRowIndex() && j == start.getColumnIndex())) {
-                        goal = new Position(i, j);
-                        break outer;
-                    }
-                }
-            }
-        }
-
+        Collections.shuffle(edgePassages, rand);
+        Position start = edgePassages.get(0);
+        Position goal = edgePassages.get(1);
+        maze.setStartPosition(start);
         maze.setGoalPosition(goal);
 
         return maze;
+    }
+
+    private List<Position> getNeighboringWalls(int row, int col, int[][] grid) {
+        List<Position> walls = new ArrayList<>();
+        int rows = grid.length, cols = grid[0].length;
+        int[][] directions = {{1,0},{-1,0},{0,1},{0,-1}};
+        for (int[] d : directions) {
+            int r = row + d[0], c = col + d[1];
+            if (r >= 0 && r < rows && c >= 0 && c < cols && grid[r][c] == 1) {
+                walls.add(new Position(r, c));
+            }
+        }
+        return walls;
+    }
+
+    private boolean canBePassage(Position wall, int[][] grid) {
+        int row = wall.getRowIndex();
+        int col = wall.getColumnIndex();
+        int rows = grid.length, cols = grid[0].length;
+        int[][] directions = {{1,0},{-1,0},{0,1},{0,-1}};
+        int passages = 0;
+        for (int[] d : directions) {
+            int r = row + d[0], c = col + d[1];
+            if (r >= 0 && r < rows && c >= 0 && c < cols && grid[r][c] == 0) {
+                passages++;
+            }
+        }
+        return passages == 1;
+    }
+
+    private List<Position> getEdgePassages(int[][] grid) {
+        List<Position> edges = new ArrayList<>();
+        int rows = grid.length, cols = grid[0].length;
+        for (int i = 0; i < rows; i++) {
+            if (grid[i][0] == 0) edges.add(new Position(i, 0));
+            if (grid[i][cols - 1] == 0) edges.add(new Position(i, cols - 1));
+        }
+        for (int j = 0; j < cols; j++) {
+            if (grid[0][j] == 0) edges.add(new Position(0, j));
+            if (grid[rows - 1][j] == 0) edges.add(new Position(rows - 1, j));
+        }
+        return edges;
     }
 
 
