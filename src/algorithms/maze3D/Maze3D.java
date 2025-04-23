@@ -54,7 +54,7 @@ public class Maze3D {
         System.out.println();
         for (int i=0;i<this.getDepth();i++){
             for (int j=0;j<this.getRows();j++) {
-                for( int k=0;k<this.getDepth();k++){
+                for( int k=0;k<this.getCols();k++){
                     if(i==this.S.getRowIndex()&&j==this.S.getColumnIndex()&& k==this.S.getDepthIndex()){
                         System.out.print("S");
                     } else if (i==this.E.getRowIndex()&&j==this.E.getColumnIndex()&& k==this.S.getDepthIndex()) {

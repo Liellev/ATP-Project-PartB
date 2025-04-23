@@ -27,6 +27,7 @@ public class Maze {
             this.matrix= new int[this.rows][this.cols];
             this.rand=new Random();
         }
+
     }
 
     public int getRows(){
