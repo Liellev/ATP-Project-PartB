@@ -8,6 +8,8 @@ public class EmptyMazeGenerator extends AMazeGenerator {
     public Maze generate(int rows, int cols) {
         if( rows<=0 || cols<=0){
             Maze empty_maze = new Maze();
+            rows=empty_maze.getRows();
+            cols= empty_maze.getCols();
         }
         Maze empty_maze= new Maze(rows,cols);
         for (int i=0;i<empty_maze.getRows();i++){

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class RunSearchOnMaze {
     public static void main(String[] args) {
         IMazeGenerator mg = new MyMazeGenerator();
-        Maze maze = mg.generate(5 , 5);
+        Maze maze = mg.generate(0 , 0);
         maze.print();
         System.out.println(String.format("Start Position: %s", maze.getStartPosition())); // format "{row,column}"
         System.out.println(String.format("Goal Position: %s", maze.getGoalPosition())); // format "{row,column}"

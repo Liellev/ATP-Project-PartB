@@ -14,6 +14,8 @@ public class SimpleMazeGenerator extends AMazeGenerator {
 public Maze generate(int rows, int cols) {
         if(rows<=0 || cols <=0){
             Maze simple=new Maze();
+            rows= simple.getRows();;
+            cols= simple.getCols();
         }
         Maze simple = new Maze(rows, cols);
 

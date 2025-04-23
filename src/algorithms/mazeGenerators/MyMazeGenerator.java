@@ -12,14 +12,21 @@ public class MyMazeGenerator extends AMazeGenerator {
     }
     @Override
     public Maze generate(int rows, int cols) {
-        if (rows <= 1 || cols <= 1) return new Maze();
+        if (rows <= 1 || cols <= 1) {
+            Maze maze=new Maze();
+            rows=maze.getRows();
+            cols= maze.getCols();
+        }
 
         Maze maze = new Maze(rows, cols);
         int[][] grid = maze.getMatrix();
 
         // Fill grid with walls
-        for (int i = 0; i < rows; i++)
-            Arrays.fill(grid[i], 1);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                grid[i][j] = 1;
+            }
+        }
 
         // Random starting point
         int startRow = rand.nextInt(rows);
@@ -36,7 +43,7 @@ public class MyMazeGenerator extends AMazeGenerator {
         }
 
         // Choose valid edge start and goal
-        List<Position> edgePassages = getEdgePassages(grid);
+        ArrayList<Position> edgePassages = getEdgePassages(grid);
         if (edgePassages.size() < 2) return generate(rows, cols); // fallback
 
         Collections.shuffle(edgePassages, rand);
@@ -49,7 +56,7 @@ public class MyMazeGenerator extends AMazeGenerator {
     }
 
     private List<Position> getNeighboringWalls(int row, int col, int[][] grid) {
-        List<Position> walls = new ArrayList<>();
+        ArrayList<Position> walls = new ArrayList<>();
         int rows = grid.length, cols = grid[0].length;
         int[][] directions = {{1,0},{-1,0},{0,1},{0,-1}};
         for (int[] d : directions) {
@@ -76,8 +83,8 @@ public class MyMazeGenerator extends AMazeGenerator {
         return passages == 1;
     }
 
-    private List<Position> getEdgePassages(int[][] grid) {
-        List<Position> edges = new ArrayList<>();
+    private ArrayList<Position> getEdgePassages(int[][] grid) {
+        ArrayList<Position> edges = new ArrayList<>();
         int rows = grid.length, cols = grid[0].length;
         for (int i = 0; i < rows; i++) {
             if (grid[i][0] == 0) edges.add(new Position(i, 0));
@@ -91,42 +98,42 @@ public class MyMazeGenerator extends AMazeGenerator {
     }
 
 
-    private void addWallsToList(int row, int col, Maze maze) {
-        ArrayList<Position> newWalls = new ArrayList<>();
-        int rows = maze.getRows(), cols = maze.getCols();
-
-        if (row + 2 < rows && maze.getMatrix()[row + 2][col] == 1)
-            newWalls.add(new Position(row + 1, col));
-        if (row - 2 >= 0 && maze.getMatrix()[row - 2][col] == 1)
-            newWalls.add(new Position(row - 1, col));
-        if (col + 2 < cols && maze.getMatrix()[row][col + 2] == 1)
-            newWalls.add(new Position(row, col + 1));
-        if (col - 2 >= 0 && maze.getMatrix()[row][col - 2] == 1)
-            newWalls.add(new Position(row, col - 1));
-
-        Collections.shuffle(newWalls, this.rand);
-        this.walls.addAll(newWalls);
-    }
-
-    private Position[] getWallSides(Position wall, Maze maze) {
-        int row = wall.getRowIndex();
-        int col = wall.getColumnIndex();
-
-        if (row % 2 == 0 && col % 2 == 1) {
-            int r1 = row - 1;
-            int r2 = row + 1;
-            if (isInBounds(r1, col, maze) && isInBounds(r2, col, maze)) {
-                return new Position[]{new Position(r1, col), new Position(r2, col)};
-            }
-        } else if (row % 2 == 1 && col % 2 == 0) {
-            int c1 = col - 1;
-            int c2 = col + 1;
-            if (isInBounds(row, c1, maze) && isInBounds(row, c2, maze)) {
-                return new Position[]{new Position(row, c1), new Position(row, c2)};
-            }
-        }
-        return null;
-    }
+//    private void addWallsToList(int row, int col, Maze maze) {
+//        ArrayList<Position> newWalls = new ArrayList<>();
+//        int rows = maze.getRows(), cols = maze.getCols();
+//
+//        if (row + 2 < rows && maze.getMatrix()[row + 2][col] == 1)
+//            newWalls.add(new Position(row + 1, col));
+//        if (row - 2 >= 0 && maze.getMatrix()[row - 2][col] == 1)
+//            newWalls.add(new Position(row - 1, col));
+//        if (col + 2 < cols && maze.getMatrix()[row][col + 2] == 1)
+//            newWalls.add(new Position(row, col + 1));
+//        if (col - 2 >= 0 && maze.getMatrix()[row][col - 2] == 1)
+//            newWalls.add(new Position(row, col - 1));
+//
+//        Collections.shuffle(newWalls, this.rand);
+//        this.walls.addAll(newWalls);
+//    }
+//
+//    private Position[] getWallSides(Position wall, Maze maze) {
+//        int row = wall.getRowIndex();
+//        int col = wall.getColumnIndex();
+//
+//        if (row % 2 == 0 && col % 2 == 1) {
+//            int r1 = row - 1;
+//            int r2 = row + 1;
+//            if (isInBounds(r1, col, maze) && isInBounds(r2, col, maze)) {
+//                return new Position[]{new Position(r1, col), new Position(r2, col)};
+//            }
+//        } else if (row % 2 == 1 && col % 2 == 0) {
+//            int c1 = col - 1;
+//            int c2 = col + 1;
+//            if (isInBounds(row, c1, maze) && isInBounds(row, c2, maze)) {
+//                return new Position[]{new Position(row, c1), new Position(row, c2)};
+//            }
+//        }
+//        return null;
+//    }
 
     private boolean isInBounds(int row, int col, Maze maze) {
         return row >= 0 && row < maze.getRows() && col >= 0 && col < maze.getCols();

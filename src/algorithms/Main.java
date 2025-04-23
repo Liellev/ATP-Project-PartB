@@ -78,6 +78,7 @@ public class Main {
     private static void Tests_SearchOnMaze() {
         boolean testPassed;
         IMazeGenerator mg = new MyMazeGenerator();
+        //IMazeGenerator mg = new SimpleMazeGenerator();
 
         int[][] rowsColumnsCombinations = getRowsColumnsCombinations();
 

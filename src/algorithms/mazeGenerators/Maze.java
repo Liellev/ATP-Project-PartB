@@ -17,8 +17,6 @@ public class Maze {
         this.cols=1000;
         this.matrix= new int[this.rows][this.cols];
         this.rand=new Random();
-        this.S =new Position(rand.nextInt((rows-1)/2)*2+1,rand.nextInt((cols-1)/2)*2+1);
-        this.E =new Position(rand.nextInt((rows-1)/2)*2+1,rand.nextInt((cols-1)/2)*2+1);
     }
 
     public Maze(int rows, int cols){
@@ -28,12 +26,6 @@ public class Maze {
             this.cols=cols;
             this.matrix= new int[this.rows][this.cols];
             this.rand=new Random();
-            if(rows==0&&cols==0){
-                this.S=new Position(0,0);
-                this.E=new Position(0,0);
-            }
-            this.S =new Position(rand.nextInt((rows-1)/2)*2+1,rand.nextInt((cols-1)/2)*2+1);
-            this.E =new Position(rand.nextInt((rows-1)/2)*2+1,rand.nextInt((cols-1)/2)*2+1);
         }
     }
 
