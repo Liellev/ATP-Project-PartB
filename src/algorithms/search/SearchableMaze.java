@@ -121,8 +121,8 @@ public class SearchableMaze implements ISearchable{
         int dr = Math.abs(loc1.getRowIndex() - loc2.getRowIndex());
         int dc = Math.abs(loc1.getColumnIndex() - loc2.getColumnIndex());
 
-        if (dr + dc == 1) return 10;       // direct step
-        if (dr == 1 && dc == 1) return 15; // diagonal step
+        if (dr + dc == 1) return 10.0;       // direct step
+        if (dr == 1 && dc == 1) return 15.0; // diagonal step
         return Double.POSITIVE_INFINITY;  // invalid movement
     }
 

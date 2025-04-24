@@ -92,14 +92,14 @@ class BestFirstSearchTest {
         assertNotNull(s , "Solution should be not null");
 
         //checking the cost of direct step
-        best.processNeighbor(start,next);
+        best.processNeighbor(start,next,searchableMaze);
         assertEquals(10.0,next.getCost());
 
         //checking the cost of diagonal step
         MazeState nextDiagonal = new MazeState(new Position(3,3));
         best.processNeighbor(start,nextDiagonal);
         assertEquals(start,nextDiagonal.getCameFrom());
-        best.processNeighbor(start, nextDiagonal);
+        best.processNeighbor(start, nextDiagonal, searchableMaze);
         assertEquals(15.0, nextDiagonal.getCost());
     }
 
