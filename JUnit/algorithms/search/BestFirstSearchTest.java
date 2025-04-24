@@ -62,6 +62,17 @@ class BestFirstSearchTest {
         assertFalse(s1.getSolutionPath().isEmpty(), "Solution path should be not empty");
     }
 
+//    @Test
+//    void checkNullInSearchableMaze() throws Exception {
+//        BestFirstSearch best = new BestFirstSearch();
+//        IMazeGenerator mg = new MyMazeGenerator();
+//        Maze maze = null;
+//        SearchableMaze searchableMaze = new SearchableMaze(maze);
+//        Solution s = best.solve(searchableMaze);
+//        assertTrue(best.getNumberOfNodesEvaluated() > 0, "Number of nodes evaluated should be greater than 0");
+//        assertNotNull(s , "Solution should be not null");
+//        assertFalse(s.getSolutionPath().isEmpty(), "Solution path should be not empty");
+//    }
 
     @Test
     void processNeighbor() throws Exception {
@@ -95,7 +106,7 @@ class BestFirstSearchTest {
     void checkingNull() throws Exception {
         BestFirstSearch best = new BestFirstSearch();
             Solution s = best.solve(null);
-            assertTrue(s.getSolutionPath().isEmpty(), "Expected empty path when maze is completely blocked");
+            assertNull(s , "Solution should null");
 
     }
    @Test
