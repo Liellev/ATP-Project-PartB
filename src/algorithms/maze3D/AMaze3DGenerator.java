@@ -35,11 +35,6 @@ public abstract class AMaze3DGenerator implements IMaze3DGenerator {
         return diff;
     }
 
-    /**
-     *
-     * @return
-     */
-    public abstract int[] getLocation();
 
 }
 

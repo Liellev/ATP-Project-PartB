@@ -1,5 +1,6 @@
 package algorithms.search;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
@@ -27,28 +28,47 @@ public class BestFirstSearch extends BreadthFirstSearch{
     }
 
     @Override
-    public void processNeighbor(AState currentState, AState neighbor) {
-        double moveCost = computeMoveCost(currentState, neighbor);
+    public Solution solve(ISearchable s) {
+        if(s == null) return null;
+
+        // init the first and the final stats
+        AState startState = s.getStartState();
+        AState goalState = s.getGoalState();
+
+        // Pull the first state from the queue and mark it as visited
+        queue.add(startState);
+        visited.add(startState);
+
+        while (!queue.isEmpty()) {
+            AState currentState = queue.poll();
+            // for the situation that the first state is the goal state also
+            if (currentState.equals(goalState)) {
+                return getSolutionPath(currentState);
+            }
+
+            else {
+                ArrayList<AState> neighbors =s.getAllPossibleStates(currentState);
+                for (AState neighbor : neighbors) {
+                    if (!visited.contains(neighbor)) {
+                        processNeighbor(currentState, neighbor);
+                    }
+                }
+
+            }
+        }
+        return null;
+    }
+
+
+    public void processNeighbor(AState currentState, AState neighbor,ISearchable s) {
+        double moveCost = s.computeMoveCost(currentState, neighbor);
         neighbor.setCost(currentState.getCost() + moveCost);
         neighbor.setCameFrom(currentState);
         visited.add(neighbor);
         queue.add(neighbor);
     }
 
-    public double computeMoveCost(AState from, AState to) {
-        int[] loc1 = (int[]) from.getLocation();
-        int[] loc2 = (int[]) to.getLocation();
 
-        if(loc1 == null || loc2 == null){
-            return Double.POSITIVE_INFINITY;
-        }
 
-        // calculate the difference in rows and columns
-        int dr = Math.abs(loc1[0] - loc2[0]);
-        int dc = Math.abs(loc1[1] - loc2[1]);
 
-        if (dr + dc == 1) return 10;       // direct step
-        if (dr == 1 && dc == 1) return 15; // diagonal step
-        return Double.POSITIVE_INFINITY;  // invalid movement
-    }
 }

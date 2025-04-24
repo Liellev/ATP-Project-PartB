@@ -26,4 +26,6 @@ public interface ISearchable {
      */
     ArrayList<AState> getAllPossibleStates(AState state);
 
+    double computeMoveCost(AState from, AState to);
+
 }

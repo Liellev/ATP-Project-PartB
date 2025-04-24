@@ -31,5 +31,4 @@ public abstract class AMazeGenerator implements IMazeGenerator {
         return diff;
     }
 
-
 }

@@ -12,10 +12,12 @@ public class MazeState extends AState {
     /**
      * Constructor with params.
      *
-     * @param state is a position in a maze.
+     * @param pos is a position in a maze.
      */
-    public MazeState(Position state) {
-        this.state = state;
+    public MazeState(Position pos) {
+
+        this.state = pos;
+        this.astate=pos.toString();
     }
 
     /**
@@ -68,10 +70,10 @@ public class MazeState extends AState {
         return state.toString();
     }
 
-    @Override
-    public Object getLocation() {
-        Position position = this.state;
-        return new int[]{position.getRowIndex(), position.getColumnIndex()};
-
-    }
+//    @Override
+//    public Object getLocation() {
+//        Position position = this.state;
+//        return new int[]{position.getRowIndex(), position.getColumnIndex()};
+//
+//    }
 }

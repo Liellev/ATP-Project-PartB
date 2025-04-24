@@ -72,9 +72,5 @@ public class Maze3DState extends AState {
         return state.toString();
     }
 
-    @Override
-    public Object getLocation() {
-        Position3D position = this.state;
-        return new int[]{position.getRowIndex(), position.getColumnIndex()};
-    }
+
 }

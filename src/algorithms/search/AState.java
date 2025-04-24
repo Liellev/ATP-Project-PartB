@@ -10,7 +10,15 @@ public abstract class AState {
 
     private AState cameFrom;
     protected double cost;
-    protected String state;
+    protected String astate;
+
+    public String getState() {
+        return astate;
+    }
+
+    public void setState(String astate) {
+        this.astate = astate;
+    }
 
     /**
      * This method is to get the origin of current state.
@@ -65,6 +73,6 @@ public abstract class AState {
     @Override
     public abstract boolean equals(Object obj);
 
-    public abstract Object getLocation();
+    //public abstract Object getLocation();
 
 }

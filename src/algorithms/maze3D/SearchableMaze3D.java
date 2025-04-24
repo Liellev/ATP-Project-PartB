@@ -1,5 +1,6 @@
 package algorithms.maze3D;
 
+import algorithms.mazeGenerators.Position;
 import algorithms.search.AState;
 import algorithms.search.ISearchable;
 import java.util.ArrayList;
@@ -92,5 +93,30 @@ public class SearchableMaze3D implements ISearchable {
     public AState getGoalState() {
         Maze3DState gstate=new Maze3DState(this.maze.getGoalPosition());
         return (AState) gstate;
+    }
+
+    @Override
+    public double computeMoveCost(AState from, AState to) {
+        if(from==null || to==null){
+            return Double.POSITIVE_INFINITY;
+        }
+        Position3D loc1 = stringToPosition(from.getState());
+        Position3D loc2 = stringToPosition(to.getState());
+
+
+        // calculate the difference in rows and columns
+        int dr = Math.abs(loc1.getRowIndex() - loc2.getRowIndex());
+        int dc = Math.abs(loc1.getColumnIndex() - loc2.getColumnIndex());
+        int dp = Math.abs(loc1.getDepthIndex() - loc2.getDepthIndex());
+        if (dr + dc +dp== 1) return 10;       // direct step
+        return Double.POSITIVE_INFINITY;  // invalid movement
+    }
+
+    private Position3D stringToPosition(String sposition){
+        String[] pos_parts=sposition.split(",");
+        int row=Integer.parseInt(pos_parts[0]);
+        int col=Integer.parseInt(pos_parts[1]);
+        int dep=Integer.parseInt(pos_parts[2]);
+        return new Position3D(dep,row,col);
     }
 }

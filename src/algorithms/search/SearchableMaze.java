@@ -108,4 +108,29 @@ public class SearchableMaze implements ISearchable{
         MazeState gstate=new MazeState(this.maze.getGoalPosition());
         return (AState) gstate;
     }
+
+    public double computeMoveCost(AState from, AState to) {
+        if(from==null || to==null){
+            return Double.POSITIVE_INFINITY;
+        }
+        Position loc1 = stringToPosition(from.getState());
+        Position loc2 = stringToPosition(to.getState());
+
+
+        // calculate the difference in rows and columns
+        int dr = Math.abs(loc1.getRowIndex() - loc2.getRowIndex());
+        int dc = Math.abs(loc1.getColumnIndex() - loc2.getColumnIndex());
+
+        if (dr + dc == 1) return 10;       // direct step
+        if (dr == 1 && dc == 1) return 15; // diagonal step
+        return Double.POSITIVE_INFINITY;  // invalid movement
+    }
+
+
+    private Position stringToPosition(String sposition){
+        String[] pos_parts=sposition.split(",");
+        int row=Integer.parseInt(pos_parts[0]);
+        int col=Integer.parseInt(pos_parts[1]);
+        return new Position(row,col);
+    }
 }
