@@ -5,54 +5,62 @@ import algorithms.mazeGenerators.Position;
  * This class represent a state in maze. it extends Astate.
  * Each Maze state contains a position.
  */
-public class MazeState extends AState{
+public class MazeState extends AState {
 
     private Position state; //using position as it is from maze generators.
 
     /**
      * Constructor with params.
+     *
      * @param state is a position in a maze.
      */
-    public MazeState(Position state){
-        this.state=state;
+    public MazeState(Position state) {
+        this.state = state;
     }
 
     /**
      * To make comparison able between 2 Maze States.
+     *
      * @param obj that will represent to comparable object.
      * @return boolean. true if equal false if different.
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){return true;}
-        if (obj==null || getClass() != obj.getClass()){return false;}
-        MazeState other= (MazeState) obj;
-        if(this.state.equals(other.state))
-        {
-           return true;
+        if (this == obj) {
+            return true;
         }
-       return false;
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        MazeState other = (MazeState) obj;
+        if (this.state.equals(other.state)) {
+            return true;
+        }
+        return false;
     }
 
     /**
      * To make sure hashcode is properly represented.
+     *
      * @return int of hashcode.
      */
     @Override
     public int hashCode() {
-        return this.state!= null ? this.state.hashCode() : 0;
+        return this.state != null ? this.state.hashCode() : 0;
     }
 
     /**
      * getter for maze state position.
+     *
      * @return Position of the current state.
      */
-    public Position getMazeStatePosition(){
+    public Position getMazeStatePosition() {
         return this.state;
     }
 
     /**
      * To help printing the maze state.
+     *
      * @return String represent the state position.
      */
     @Override
@@ -60,4 +68,10 @@ public class MazeState extends AState{
         return state.toString();
     }
 
+    @Override
+    public Object getLocation() {
+        Position position = this.state;
+        return new int[]{position.getRowIndex(), position.getColumnIndex()};
+
+    }
 }

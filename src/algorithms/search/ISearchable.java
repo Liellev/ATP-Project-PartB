@@ -25,4 +25,5 @@ public interface ISearchable {
      * @return ArrayList<AState> contains all possible states.
      */
     ArrayList<AState> getAllPossibleStates(AState state);
+
 }
