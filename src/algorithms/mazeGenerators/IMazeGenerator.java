@@ -1,11 +1,8 @@
+
 package algorithms.mazeGenerators;
 
-
 /**
- * The IMazeGenerator interface is used to build mazes.
- * @author  Adi Levy, Liel Levinger
- * @version 1.0
- * @since   2025-05-25
+ * This is an interface to combine all necessary method to create a maze.
  */
 public interface IMazeGenerator {
     /**

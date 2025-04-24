@@ -3,7 +3,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+/**
+ * This is class Maze. it has all necessary fields and method to generate a maze of all types.
+ */
 public class Maze {
+
     private int[][] matrix;
     private int rows;
     private int cols;
@@ -11,14 +15,22 @@ public class Maze {
     private Position E;
     private Random rand;
 
-
+    /**
+     * Default constructor. creates a 100*100 maze matrix.
+     */
     public Maze(){
-        this.rows=1000;
-        this.cols=1000;
+        this.rows=100;
+        this.cols=100;
         this.matrix= new int[this.rows][this.cols];
         this.rand=new Random();
     }
 
+    /**
+     * Constructor with params. to let the user create a maze
+     * in any valid size.
+     * @param rows This is the rows number in maze matrix.
+     * @param cols This is the columns number in maze matrix.
+     */
     public Maze(int rows, int cols){
         if(rows>=0 && cols>=0)
         {
@@ -30,19 +42,35 @@ public class Maze {
 
     }
 
+    /**
+     * Getter for rows number.
+     * @return int rows count
+     */
     public int getRows(){
         return this.rows;
     }
 
+    /**
+     * Getter for columns number.
+     * @return int columns count
+     */
     public int getCols(){
         return this.cols;
     }
 
+    /**
+     * Getter for the maze matrix.
+     * @return int[][] matrix.
+     */
     public int[][] getMatrix(){
         return this.matrix;
     }
 
 
+    /**
+     * This method prints the maze matrix with S to define start position
+     * and E to define goal position. 1 are walls, 0 are passages.
+     */
     public void print(){
         System.out.println();
         for (int i=0;i<this.getRows();i++){
@@ -65,23 +93,41 @@ public class Maze {
 }
 
 
-
+    /**
+     * Getter for start position.
+     * @return Position start cell in maze.
+     */
     public Position getStartPosition(){
         return this.S;
     }
 
+    /**
+     * Getter for goal position.
+     * @return Position goal cell in maze.
+     */
     public Position getGoalPosition(){
         return this.E;
     }
 
+    /**
+     * Setter for start position.
+     */
     public void setStartPosition(Position start){
         this.S=start;
     }
 
+    /**
+     * Setter for goal position.
+     */
     public void setGoalPosition(Position goal){
         this.E=goal;
     }
 
+    /**
+     * This is a helping method. it is being used to generate a
+     * valid start position that should be on maze's frame and random.
+     * @return Position of the start cell.
+     */
     public Position generateStartCell() {
         ArrayList<Position> edgeCells = new ArrayList<>();
 
@@ -104,7 +150,12 @@ public class Maze {
     }
 
 
-
+    /**
+     * This is a helping method. it is being used to generate a
+     * valid goal position that should be on maze's frame, random and
+     * different from start cell.
+     * @return Position of the goal cell.
+     */
     public Position generateGoalCell() {
         ArrayList<Position> edgePassages = new ArrayList<>();
 

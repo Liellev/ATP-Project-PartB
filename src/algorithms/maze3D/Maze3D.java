@@ -53,18 +53,19 @@ public class Maze3D {
     public void print(){
         System.out.println();
         for (int i=0;i<this.getDepth();i++){
+            System.out.println("Layer"+" "+ i);
             for (int j=0;j<this.getRows();j++) {
                 for( int k=0;k<this.getCols();k++){
-                    if(i==this.S.getRowIndex()&&j==this.S.getColumnIndex()&& k==this.S.getDepthIndex()){
+                    if(i==this.S.getDepthIndex()&&j==this.S.getRowIndex()&& k==this.S.getColumnIndex()){
                         System.out.print("S");
-                    } else if (i==this.E.getRowIndex()&&j==this.E.getColumnIndex()&& k==this.S.getDepthIndex()) {
+                    } else if (i==this.E.getDepthIndex()&&j==this.E.getRowIndex()&& k==this.S.getColumnIndex()) {
                         System.out.print("E");
                     }
                     else{
                         System.out.print(this.matrix[i][j][k]);
                     }
                 }
-
+                System.out.println();
             }
             System.out.println();
         }
