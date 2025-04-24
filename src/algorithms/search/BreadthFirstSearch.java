@@ -27,7 +27,6 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
     public Solution solve(ISearchable s) {
         if(s == null) return new Solution();
 
-
         // init the first and the final stats
         AState startState = s.getStartState();
         AState goalState = s.getGoalState();
