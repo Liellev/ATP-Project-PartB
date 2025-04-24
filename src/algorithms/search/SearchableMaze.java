@@ -127,8 +127,9 @@ public class SearchableMaze implements ISearchable{
     }
 
 
-    private Position stringToPosition(String sposition){
-        String[] pos_parts=sposition.split(",");
+    private Position stringToPosition(String str){
+        str = str.replaceAll("[{}\\s]", "");
+        String[] pos_parts = str.split(",");
         int row=Integer.parseInt(pos_parts[0]);
         int col=Integer.parseInt(pos_parts[1]);
         return new Position(row,col);
