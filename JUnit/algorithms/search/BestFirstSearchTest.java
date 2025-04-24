@@ -75,32 +75,49 @@ class BestFirstSearchTest {
 //    }
 
     @Test
-    void processNeighbor() throws Exception {
+    void processNeighborForDirectStep() throws Exception {
         BestFirstSearch best = new BestFirstSearch();
         IMazeGenerator mg = new EmptyMazeGenerator();
         Maze maze = mg.generate(5, 5);
 
-        maze.setStartPosition(new Position(2,2));
-        maze.setGoalPosition(new Position(4,4));
+        maze.setStartPosition(new Position(2, 2));
+        maze.setGoalPosition(new Position(4, 4));
 
         SearchableMaze searchableMaze = new SearchableMaze(maze);
-        Solution s = best.solve(searchableMaze);
+        best.solve(searchableMaze);
 
         MazeState start = new MazeState(maze.getStartPosition());
-        //checking the cost of direct step
-        MazeState next = new MazeState(new Position(2,3));
-        assertNotNull(s , "Solution should be not null");
+        MazeState next = new MazeState(new Position(2, 3));
 
-        //checking the cost of direct step
-        best.processNeighbor(start,next);
-        assertEquals(10.0,next.getCost());
+        start.setState(start.getMazeStatePosition().toString());
+        next.setState(next.getMazeStatePosition().toString());
 
-        //checking the cost of diagonal step
-        MazeState nextDiagonal = new MazeState(new Position(3,3));
-        best.processNeighbor(start,nextDiagonal);
-        assertEquals(start,nextDiagonal.getCameFrom());
-        best.processNeighbor(start, nextDiagonal);
-        assertEquals(15.0, nextDiagonal.getCost());
+        best.processNeighbor(start, next,searchableMaze);
+        assertEquals(start, next.getCameFrom(), "CameFrom should be the start state");
+        assertEquals(10.0, next.getCost(), "Cost for direct step should be 10");
+    }
+
+    @Test
+    public void  processNeighborDiagonalStepCost() throws Exception {
+        BestFirstSearch best = new BestFirstSearch();
+        IMazeGenerator mg = new EmptyMazeGenerator();
+        Maze maze = mg.generate(5, 5);
+
+        maze.setStartPosition(new Position(2, 2));
+        maze.setGoalPosition(new Position(4, 4));
+
+        SearchableMaze searchableMaze = new SearchableMaze(maze);
+        best.solve(searchableMaze);
+
+        MazeState start = new MazeState(maze.getStartPosition());
+        MazeState nextDiagonal = new MazeState(new Position(3, 3));
+
+        start.setState(start.getMazeStatePosition().toString());
+        nextDiagonal.setState(nextDiagonal.getMazeStatePosition().toString());
+
+        best.processNeighbor(start, nextDiagonal,searchableMaze);
+        assertEquals(start, nextDiagonal.getCameFrom(), "CameFrom should be the start state");
+        assertEquals(15.0, nextDiagonal.getCost(), "Cost for diagonal step should be 15");
     }
 
 
