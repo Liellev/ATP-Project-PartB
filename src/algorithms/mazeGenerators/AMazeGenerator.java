@@ -5,6 +5,16 @@ package algorithms.mazeGenerators;
  * Using the IMazeGenerator interface.
  */
 public abstract class AMazeGenerator implements IMazeGenerator {
+
+    /**
+     * This method is used to generate a maze.
+     * @param rows This is the rows number in maze matrix.
+     * @param cols This is the columns number in maze matrix.
+     * @return Maze object.
+     */
+    @Override
+    public abstract Maze generate(int rows, int cols);
+
     /**
      * This method is used to measure the time it takes to build a maze.
      * It is identical to all mazes.
@@ -20,5 +30,6 @@ public abstract class AMazeGenerator implements IMazeGenerator {
         long diff= after-before;
         return diff;
     }
+
 
 }

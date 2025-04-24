@@ -111,6 +111,7 @@ public class Maze {
 
     /**
      * Setter for start position.
+     * @param start position to set as start
      */
     public void setStartPosition(Position start){
         this.S=start;
@@ -118,6 +119,7 @@ public class Maze {
 
     /**
      * Setter for goal position.
+     * @param goal position to set as goal
      */
     public void setGoalPosition(Position goal){
         this.E=goal;

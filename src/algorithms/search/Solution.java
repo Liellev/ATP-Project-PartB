@@ -22,8 +22,11 @@ public class Solution {
      * @param path represents the states of a solution.
      */
     public Solution(ArrayList<AState> path){
-        this.path=new ArrayList<>();
-        this.path.addAll(path);
+        if(path!=null)
+        {
+            this.path=new ArrayList<>();
+            this.path.addAll(path);
+        }
     }
 
     /**

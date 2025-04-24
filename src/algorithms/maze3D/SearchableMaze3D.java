@@ -2,12 +2,20 @@ package algorithms.maze3D;
 
 import algorithms.search.AState;
 import algorithms.search.ISearchable;
-
 import java.util.ArrayList;
 
+/**
+ * This class is used to link between a 3D maze to a generic searchable problem.
+ * It implements ISearchable interface.
+ */
 public class SearchableMaze3D implements ISearchable {
+
     private Maze3D maze;
 
+    /**
+     * Constructor with params.
+     * @param maze represent a 3D maze to solve.
+     */
     public SearchableMaze3D(Maze3D maze){
         if(maze!=null){
             this.maze=maze;
@@ -15,14 +23,20 @@ public class SearchableMaze3D implements ISearchable {
 
     }
 
+    /**
+     * Getter for all states that are reachable from current state.
+     * It uses the structure of a 3D maze.
+     * @param state represent current state in the problem.
+     * @return ArrayList<AState> contains all possible states.
+     */
     public ArrayList<AState> getAllPossibleStates(AState state) {
         int[][] directions = {
-                {0, 0, 1},   // ימינה (col + 1)
-                {0, 0, -1},  // שמאלה (col - 1)
-                {0, 1, 0},   // למטה (row + 1)
-                {0, -1, 0},  // למעלה (row - 1)
-                {1, 0, 0},   // קדימה בעומק (depth + 1)
-                {-1, 0, 0}   // אחורה בעומק (depth - 1)
+                {0, 0, 1},
+                {0, 0, -1},
+                {0, 1, 0},
+                {0, -1, 0},
+                {1, 0, 0},
+                {-1, 0, 0}
         };
         ArrayList<AState> successors = new ArrayList<>();
         Maze3DState mazeState = (Maze3DState) state;
@@ -48,6 +62,11 @@ public class SearchableMaze3D implements ISearchable {
         return successors;
     }
 
+    /**
+     * Helper method to check if a 3D position is in matrix of the 3D maze.
+     * @param pos represents position to check.
+     * @return boolean . true if in maze, false if not.
+     */
     public boolean valid(Position3D pos) {
         if (pos.getColumnIndex() < 0 || pos.getRowIndex() < 0 || pos.getDepthIndex()<0) {
             return false;
@@ -55,12 +74,20 @@ public class SearchableMaze3D implements ISearchable {
         return this.maze.getRows() > pos.getRowIndex() && this.maze.getCols() > pos.getColumnIndex() && this.maze.getDepth() > pos.getDepthIndex();
     }
 
+    /**
+     * This is a wrapper from Maze3DState start position to Astate.
+     * @return Astate that represent a maze3Dstate.
+     */
     @Override
     public AState getStartState() {
         Maze3DState sstate=new Maze3DState(this.maze.getStartPosition());
         return (AState) sstate;
     }
 
+    /**
+     * This is a wrapper from Maze3DState goal position to Astate.
+     * @return Astate that represent a maze3Dstate.
+     */
     @Override
     public AState getGoalState() {
         Maze3DState gstate=new Maze3DState(this.maze.getGoalPosition());

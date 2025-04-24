@@ -1,11 +1,13 @@
 package algorithms.maze3D;
 
-import algorithms.mazeGenerators.Position;
-
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This is class Maze3D. it has all necessary fields and method to generate a 3D maze of all types.
+ */
 public class Maze3D {
+
     private int[][][] matrix;
     private int rows;
     private int cols;
@@ -15,15 +17,25 @@ public class Maze3D {
     private Random rand;
 
 
+    /**
+     * Default constructor. creates a 100*100*100 3D maze matrix.
+     */
     public Maze3D(){
-        this.rows=1000;
-        this.cols=1000;
-        this.depth=1000;
+        this.rows=100;
+        this.cols=100;
+        this.depth=100;
         this.matrix= new int[this.depth][this.rows][this.cols];
         this.rand=new Random();
 
     }
 
+    /**
+     * Constructor with params. to let the user create a 3D maze
+     * in any valid size.
+     * @param rows This is the rows number in maze matrix.
+     * @param cols This is the columns number in maze matrix.
+     * @param depth This is the depth of maze matrix.
+     */
     public Maze3D(int depth,int rows, int cols){
         if(rows>0 && cols>0 && depth>0)
         {
@@ -35,21 +47,42 @@ public class Maze3D {
         }
     }
 
+    /**
+     * Getter for rows number.
+     * @return int rows count
+     */
     public int getRows(){
         return this.rows;
     }
 
+    /**
+     * Getter for columns number.
+     * @return int columns count
+     */
     public int getCols(){
         return this.cols;
     }
 
+    /**
+     * Getter for depth number.
+     * @return int depth count
+     */
     public int getDepth(){ return this.depth;}
 
+    /**
+     * Getter for the maze matrix.
+     * @return int[][][] matrix.
+     */
     public int[][][] getMap(){
         return this.matrix;
     }
 
 
+    /**
+     * This method prints the 3D maze matrix with S to define start position
+     * and E to define goal position. 1 are walls, 0 are passages.
+     * I also displays each layer separately.
+     */
     public void print(){
         System.out.println();
         for (int i=0;i<this.getDepth();i++){
@@ -72,69 +105,36 @@ public class Maze3D {
 
     }
 
+    /**
+     * Getter for start position.
+     * @return Position start cell in maze.
+     */
     public Position3D getStartPosition(){
         return this.S;
     }
 
+    /**
+     * Getter for goal position.
+     * @return Position goal cell in maze.
+     */
     public Position3D getGoalPosition(){
         return this.E;
     }
 
+    /**
+     * Setter for start 3D position.
+     * @param start position to set as start
+     */
     public void setStartPosition(Position3D start){
         this.S=start;
     }
 
+    /**
+     * Setter for goal 3D position.
+     * @param goal position to set as goal
+     */
     public void setGoalPosition(Position3D goal){
         this.E=goal;
-    }
-
-    public Position3D generateStartCell3D(){
-
-        int edge = this.rand.nextInt(6);
-        int row = 0, col = 0, dep=0;
-
-        switch (edge) {
-            case 0: row = 0; col = this.rand.nextInt(cols);dep= this.rand.nextInt(depth);
-                break;
-            case 1: row = rows - 1; col = this.rand.nextInt(cols);dep =this.rand.nextInt(depth);
-                break;
-            case 2: col = 0; row = this.rand.nextInt(rows);dep =this.rand.nextInt(depth);
-                break;
-            case 3: col = cols - 1; row = this.rand.nextInt(rows);dep= this.rand.nextInt(depth);
-                break;
-            case 4: dep=0; row = this.rand.nextInt(rows);col=this.rand.nextInt(cols);
-                break;
-            case 5: dep=depth-1; row = this.rand.nextInt(rows);col=this.rand.nextInt(cols);
-                break;
-        }
-        Position3D startcell=new Position3D(dep,row, col);
-        this.getMap()[startcell.getDepthIndex()][startcell.getRowIndex()][startcell.getColumnIndex()]=0;
-        return startcell;
-    }
-
-    public Position3D generateGoalCell3D(){
-
-        ArrayList<Position3D> edgePassages = new ArrayList<>();
-        for(int dep= 0; dep< depth ;dep++) {
-            for (int row = 0; row < rows; row++) {
-                for (int col = 0; col < cols; col++) {
-                    boolean isEdge = dep==0 || dep==depth-1 || row == 0 || row == rows - 1 || col == 0 || col == cols - 1;
-                    boolean isPassage = this.getMap()[dep][row][col] == 0;
-                    Position3D pos = new Position3D(dep,row, col);
-
-                    if (isEdge && isPassage && !pos.equals(this.S)) {
-                        edgePassages.add(pos);
-                    }
-                }
-            }
-        }
-
-        if (edgePassages.isEmpty()) {
-            // fallback: return any passage not equal to S, or just S if none
-            return this.S;
-        }
-
-        return edgePassages.get(rand.nextInt(edgePassages.size()));
     }
 
 }

@@ -20,7 +20,6 @@ public class SearchableMaze implements ISearchable{
         if(maze!=null){
             this.maze=maze;
         }
-
     }
 
     /**
@@ -30,6 +29,9 @@ public class SearchableMaze implements ISearchable{
      * @return ArrayList<AState> contains all possible states.
      */
     public ArrayList<AState> getAllPossibleStates(AState state) {
+        if (state==null){
+            return null;
+        }
         int[][] directions = {
                 {-1, 0}, // above
                 {1, 0},  // below
@@ -78,6 +80,9 @@ public class SearchableMaze implements ISearchable{
      * @return boolean . true if in maze, false if not.
      */
     private boolean valid(Position pos) {
+        if(pos==null){
+            return false;
+        }
         if (pos.getColumnIndex() < 0 || pos.getRowIndex() < 0) {
             return false;
         }

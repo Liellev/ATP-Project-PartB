@@ -28,7 +28,7 @@ public class SimpleMazeGenerator extends AMazeGenerator {
      * @return Maze object with possible solutions.
      */
     public Maze generate(int rows, int cols) {
-            if(rows<=0 || cols <=0){
+            if(rows<=1 || cols <=1){
                 Maze simple=new Maze();
                 rows= simple.getRows();;
                 cols= simple.getCols();

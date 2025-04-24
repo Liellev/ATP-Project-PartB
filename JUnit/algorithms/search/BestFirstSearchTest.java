@@ -15,7 +15,7 @@ class BestFirstSearchTest {
     }
 
     @Test
-    void rowsAndColmsAreEquals() throws Exception {
+    void rowsAndColmsAreEqual() throws Exception {
         BestFirstSearch best = new BestFirstSearch();
         IMazeGenerator mg = new MyMazeGenerator();
         Maze maze = mg.generate(20, 20);
@@ -27,17 +27,42 @@ class BestFirstSearchTest {
     }
 
     @Test
-    void rowsAndColmsAreDifferent() throws Exception {
+    void rowsAndColmsAreNotEqual() throws Exception {
+        BestFirstSearch best = new BestFirstSearch();
+        IMazeGenerator mg = new MyMazeGenerator();
+        Maze maze = mg.generate(100, 20);
+        SearchableMaze searchableMaze = new SearchableMaze(maze);
+        Solution s = best.solve(searchableMaze);
+        assertTrue(best.getNumberOfNodesEvaluated() > 0, "Number of nodes evaluated should be greater than 0");
+        assertNotNull(s , "Solution should be not null");
+        assertFalse(s.getSolutionPath().isEmpty(), "Solution path should be not empty");
+    }
+
+    @Test
+    void rowsAndColmsAreOdd() throws Exception {
         BestFirstSearch best1 = new BestFirstSearch();
         IMazeGenerator mg1 = new MyMazeGenerator();
-        Maze maze1 = mg1.generate(11, 10);
+        Maze maze1 = mg1.generate(121, 121);
         SearchableMaze searchableMaze1 = new SearchableMaze(maze1);
         Solution s1 = best1.solve(searchableMaze1);
         assertTrue(best1.getNumberOfNodesEvaluated() > 0, "Number of nodes evaluated should be greater than 0");
         assertNotNull(s1 , "Solution should be not null");
         assertFalse(s1.getSolutionPath().isEmpty(), "Solution path should be not empty");
-
     }
+
+    @Test
+    void rowsAndColmsAre0() throws Exception {
+        BestFirstSearch best1 = new BestFirstSearch();
+        IMazeGenerator mg1 = new MyMazeGenerator();
+        Maze maze1 = mg1.generate(0, 0);
+        SearchableMaze searchableMaze1 = new SearchableMaze(maze1);
+        Solution s1 = best1.solve(searchableMaze1);
+        assertTrue(best1.getNumberOfNodesEvaluated() > 0, "Number of nodes evaluated should be greater than 0");
+        assertNotNull(s1 , "Solution should be not null");
+        assertFalse(s1.getSolutionPath().isEmpty(), "Solution path should be not empty");
+    }
+
+
     @Test
     void processNeighbor() throws Exception {
         BestFirstSearch best = new BestFirstSearch();

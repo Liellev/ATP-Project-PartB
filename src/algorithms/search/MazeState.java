@@ -17,39 +17,6 @@ public class MazeState extends AState{
         this.state=state;
     }
 
-//    /**
-//     * This method is to get the origin of current state.
-//     * @return Astate that represent the state's origin.
-//     */
-//    @Override
-//    public AState getCameFrom() {
-//        return super.getCameFrom();
-//    }
-//
-//    /**
-//     * Setter for this state's origin.
-//     * @param cameFrom represent the state that is the origin of the current state.
-//     */
-//    @Override
-//    public void setCameFrom(AState cameFrom) {
-//        super.setCameFrom(cameFrom);
-//    }
-//
-//    /**
-//     * getter for cost's field.
-//     * @return double of cost.
-//     */
-//    @Override
-//    public double getCost() {
-//        return this.cost;
-//    }
-//
-//    @Override
-//    public void setCost(double cost) {
-//        this.cost=cost;
-//
-//    }
-
     /**
      * To make comparison able between 2 Maze States.
      * @param obj that will represent to comparable object.

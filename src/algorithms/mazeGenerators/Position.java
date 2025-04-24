@@ -14,7 +14,7 @@ public class Position {
     /**
      * Constructor with params.
      * @param row represents the row cell index
-     * @param col represents the column cel index
+     * @param col represents the column cell index
      */
     public Position(int row,int col){
         this.row=row;
@@ -46,7 +46,7 @@ public class Position {
     }
 
     /**
-     * to make sure thar the hashcode is proper.
+     * to make sure that the hashcode is proper.
      * @return int of hashcode.
      */
     @Override
