@@ -128,7 +128,7 @@ public class MyMazeGenerator extends AMazeGenerator {
      * passes (value of o) that are on maze's frame.
      * Then, generate method will use it to randomly choose a start and goal cell.
      * @param grid represent the maze matrix.
-     * @return ArrayList<Position> of possible start and goal cells
+     * @return ArrayList<Position> of possible start and goal cells.
      */
     private ArrayList<Position> getEdgePassages(int[][] grid) {
         ArrayList<Position> edges = new ArrayList<>();

@@ -2,6 +2,7 @@ package algorithms.search;
 
 public abstract class AState {
     private AState cameFrom;
+    protected double cost;
 
     public AState getCameFrom(){
         return this.cameFrom;

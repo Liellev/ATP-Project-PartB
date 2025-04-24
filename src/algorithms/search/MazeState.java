@@ -5,8 +5,6 @@ import algorithms.mazeGenerators.Position;
 public class MazeState extends AState{
 
     private Position state; //using position as it is from maze generators.
-    private double cost;
-
 
     public MazeState(Position state){
         this.state=state;
