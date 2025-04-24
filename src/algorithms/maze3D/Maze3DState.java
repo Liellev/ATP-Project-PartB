@@ -18,7 +18,9 @@ public class Maze3DState extends AState {
      * @param state reresents a 3D Position of the current state.
      */
     public Maze3DState(Position3D state) {
+
         this.state = state;
+        this.astate= state.toString();
     }
 
 

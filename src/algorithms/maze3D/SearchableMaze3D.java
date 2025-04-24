@@ -112,8 +112,10 @@ public class SearchableMaze3D implements ISearchable {
         return Double.POSITIVE_INFINITY;  // invalid movement
     }
 
+
     private Position3D stringToPosition(String sposition){
-        String[] pos_parts=sposition.split(",");
+        sposition = sposition.replaceAll("[{}\\s]", "");
+        String[] pos_parts = sposition.split(",");
         int row=Integer.parseInt(pos_parts[0]);
         int col=Integer.parseInt(pos_parts[1]);
         int dep=Integer.parseInt(pos_parts[2]);

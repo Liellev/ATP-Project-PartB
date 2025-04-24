@@ -70,10 +70,5 @@ public class MazeState extends AState {
         return state.toString();
     }
 
-//    @Override
-//    public Object getLocation() {
-//        Position position = this.state;
-//        return new int[]{position.getRowIndex(), position.getColumnIndex()};
-//
-//    }
+
 }
