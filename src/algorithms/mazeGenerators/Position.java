@@ -55,9 +55,9 @@ public class Position {
     }
 
     /**
-     * To make comparison able between to Positions.
+     * To make comparison able between 2 Positions.
      * @param obj that will represent to comparable object.
-     * @return boolean. rue if equal false if different.
+     * @return boolean. true if equal false if different.
      */
     @Override
     public boolean equals(Object obj) {

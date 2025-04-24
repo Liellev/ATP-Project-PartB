@@ -1,21 +1,37 @@
 package algorithms.search;
 import java.util.*;
 
+/**
+ * This class extands ASearchingAlgorithm abstract class.
+ * in this class DFS algorithm is used to solve problems.
+ */
 public class DepthFirstSearch extends ASearchingAlgorithm{
 
     private Stack<AState> stack;
     private HashSet<AState> visited;
 
+    /**
+     * Default constructor.
+     */
     public DepthFirstSearch(){
         this.stack= new Stack<>();
         this.visited= new HashSet<>();
     }
 
+    /**
+     * Getter for the algorithm's name.
+     * @return String of the name.
+     */
     @Override
     public String getName() {
         return "DepthFirstSearch";
     }
 
+    /**
+     * This method solves a problem using DFS algorithm.
+     * @param s represent a searchable object (the problem needed to be solved)
+     * @return Solution that contains the solution path.
+     */
     @Override
     public Solution solve(ISearchable s) {
         if(s == null) return null;
@@ -43,7 +59,10 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
         return null;
     }
 
-
+    /**
+     * Getter for visited nodes during algorithm.
+     * @return int of nodes count.
+     */
     @Override
     public int getNumberOfNodesEvaluated() {
         return this.visited.size();

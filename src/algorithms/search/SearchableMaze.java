@@ -2,12 +2,20 @@ package algorithms.search;
 
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
-
 import java.util.ArrayList;
 
+/**
+ * This class is used to link between maze to a generic searchable problem.
+ * It implements ISearchable interface.
+ */
 public class SearchableMaze implements ISearchable{
+
     private Maze maze;
 
+    /**
+     * Constructor with params.
+     * @param maze represent a maze to solve.
+     */
     public SearchableMaze(Maze maze){
         if(maze!=null){
             this.maze=maze;
@@ -15,6 +23,12 @@ public class SearchableMaze implements ISearchable{
 
     }
 
+    /**
+     * Getter for all states that are reachable from current state.
+     * It uses the structure of a maze.
+     * @param state represent current state in the problem.
+     * @return ArrayList<AState> contains all possible states.
+     */
     public ArrayList<AState> getAllPossibleStates(AState state) {
         int[][] directions = {
                 {-1, 0}, // above
@@ -58,19 +72,32 @@ public class SearchableMaze implements ISearchable{
         return successors;
     }
 
-    public boolean valid(Position pos) {
+    /**
+     * Helper method to check if a position is in matrix of the maze.
+     * @param pos represents position to check.
+     * @return boolean . true if in maze, false if not.
+     */
+    private boolean valid(Position pos) {
         if (pos.getColumnIndex() < 0 || pos.getRowIndex() < 0) {
             return false;
         }
         return this.maze.getRows() > pos.getRowIndex() && this.maze.getCols() > pos.getColumnIndex();
     }
 
+    /**
+     * This is a wrapper from MazeState start position to Astate.
+     * @return Astate that represent a mazestate.
+     */
     @Override
     public AState getStartState() {
         MazeState sstate=new MazeState(this.maze.getStartPosition());
         return (AState) sstate;
     }
 
+    /**
+     * This is a wrapper from MazeState goal position to Astate.
+     * @return Astate that represent a mazestate.
+     */
     @Override
     public AState getGoalState() {
         MazeState gstate=new MazeState(this.maze.getGoalPosition());
