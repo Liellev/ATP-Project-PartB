@@ -2,22 +2,25 @@ package algorithms.mazeGenerators;
 
 
 /**
- *
+ * The IMazeGenerator interface is used to build mazes.
+ * @author  Adi Levy, Liel Levinger
+ * @version 1.0
+ * @since   2025-05-25
  */
 public interface IMazeGenerator {
     /**
-     *
-     * @param rows
-     * @param cols
-     * @return
+     * This method is used to generate a maze.
+     * @param rows This is the rows number in maze matrix.
+     * @param cols This is the columns number in maze matrix.
+     * @return Maze object.
      */
     public Maze generate(int rows, int cols);
 
     /**
-     *
-     * @param rows
-     * @param cols
-     * @return
+     * This method is used to measure the time it takes to build a maze.
+     * @param rows This is the rows number in maze matrix.
+     * @param cols This is the columns number in maze matrix.
+     * @return long that represent the time in ms.
      */
     public long measureAlgorithmTimeMillis(int rows, int cols);
 }

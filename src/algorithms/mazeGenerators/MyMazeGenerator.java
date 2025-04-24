@@ -2,6 +2,11 @@ package algorithms.mazeGenerators;
 
 import java.util.*;
 
+/**
+ * This is a class that creates Random Mazes using the Prim's algorithm.
+ * extends the AMazeGenerator class.
+ */
+
 public class MyMazeGenerator extends AMazeGenerator {
     private Random rand;
     private ArrayList<Position> walls;
@@ -97,45 +102,4 @@ public class MyMazeGenerator extends AMazeGenerator {
         return edges;
     }
 
-
-//    private void addWallsToList(int row, int col, Maze maze) {
-//        ArrayList<Position> newWalls = new ArrayList<>();
-//        int rows = maze.getRows(), cols = maze.getCols();
-//
-//        if (row + 2 < rows && maze.getMatrix()[row + 2][col] == 1)
-//            newWalls.add(new Position(row + 1, col));
-//        if (row - 2 >= 0 && maze.getMatrix()[row - 2][col] == 1)
-//            newWalls.add(new Position(row - 1, col));
-//        if (col + 2 < cols && maze.getMatrix()[row][col + 2] == 1)
-//            newWalls.add(new Position(row, col + 1));
-//        if (col - 2 >= 0 && maze.getMatrix()[row][col - 2] == 1)
-//            newWalls.add(new Position(row, col - 1));
-//
-//        Collections.shuffle(newWalls, this.rand);
-//        this.walls.addAll(newWalls);
-//    }
-//
-//    private Position[] getWallSides(Position wall, Maze maze) {
-//        int row = wall.getRowIndex();
-//        int col = wall.getColumnIndex();
-//
-//        if (row % 2 == 0 && col % 2 == 1) {
-//            int r1 = row - 1;
-//            int r2 = row + 1;
-//            if (isInBounds(r1, col, maze) && isInBounds(r2, col, maze)) {
-//                return new Position[]{new Position(r1, col), new Position(r2, col)};
-//            }
-//        } else if (row % 2 == 1 && col % 2 == 0) {
-//            int c1 = col - 1;
-//            int c2 = col + 1;
-//            if (isInBounds(row, c1, maze) && isInBounds(row, c2, maze)) {
-//                return new Position[]{new Position(row, c1), new Position(row, c2)};
-//            }
-//        }
-//        return null;
-//    }
-
-    private boolean isInBounds(int row, int col, Maze maze) {
-        return row >= 0 && row < maze.getRows() && col >= 0 && col < maze.getCols();
-    }
 }

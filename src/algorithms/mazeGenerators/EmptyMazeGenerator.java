@@ -1,9 +1,19 @@
 package algorithms.mazeGenerators;
 
+/**
+ * This is a class that creates Empty Mazes.
+ * Using the AMazeGenerator class.
+ */
 public class EmptyMazeGenerator extends AMazeGenerator {
      public EmptyMazeGenerator(){
      }
 
+    /**
+     * This method is used to generate an empty maze (without walls).
+     * @param rows This is the rows number in maze matrix.
+     * @param cols This is the columns number in maze matrix.
+     * @return Maze object.
+     */
     @Override
     public Maze generate(int rows, int cols) {
         if( rows<=0 || cols<=0){

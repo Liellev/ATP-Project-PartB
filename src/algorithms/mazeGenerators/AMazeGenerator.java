@@ -1,14 +1,16 @@
 package algorithms.mazeGenerators;
 
 /**
- *
+ * This is an abstract class that represent all kinds of mazes.
+ * Using the IMazeGenerator interface.
  */
 public abstract class AMazeGenerator implements IMazeGenerator {
     /**
-     *
-     * @param rows
-     * @param cols
-     * @return
+     * This method is used to measure the time it takes to build a maze.
+     * It is identical to all mazes.
+     * @param rows This is the rows number in maze matrix.
+     * @param cols This is the columns number in maze matrix.
+     * @return long that represent the time in ms.
      */
     @Override
     public long measureAlgorithmTimeMillis(int rows, int cols) {
