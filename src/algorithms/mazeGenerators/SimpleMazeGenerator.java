@@ -35,23 +35,28 @@ public class SimpleMazeGenerator extends AMazeGenerator {
             }
             Maze simple = new Maze(rows, cols);
 
+            //fill matrix in walls
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     simple.getMatrix()[i][j] = 1;
                 }
             }
 
+            //pick a valid starting point
             Position startcell = simple.generateStartCell();
             simple.setStartPosition(startcell);
 
+            //pick a valid goal cell
             Position goalCell =  simple.generateGoalCell();
             simple.setGoalPosition(goalCell);
 
             int row = startcell.getRowIndex();
             int col = startcell.getColumnIndex();
 
+            //break starting point
             simple.getMatrix()[row][col] = 0;
 
+            //until getting to goal, break walls on the way
             while (row != goalCell.getRowIndex()) {
                 row += (goalCell.getRowIndex() > row) ? 1 : -1;
                 simple.getMatrix()[row][col] = 0;
@@ -62,6 +67,7 @@ public class SimpleMazeGenerator extends AMazeGenerator {
                 simple.getMatrix()[row][col] = 0;
             }
 
+            //break additional random cells
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     if (simple.getMatrix()[i][j] == 1 && rand.nextDouble() < 0.3) {

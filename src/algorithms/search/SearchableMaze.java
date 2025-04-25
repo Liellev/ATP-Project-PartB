@@ -109,6 +109,13 @@ public class SearchableMaze implements ISearchable{
         return (AState) gstate;
     }
 
+    /**
+     * This method is used to compute move cost between
+     * a state to another state.
+     * @param from is an Astste that represent the current state in the problem.
+     * @param to is an Astate that represent the state we want to get to.
+     * @return double that represent move cost.
+     */
     public double computeMoveCost(AState from, AState to) {
         if(from==null || to==null){
             return Double.POSITIVE_INFINITY;
@@ -127,6 +134,11 @@ public class SearchableMaze implements ISearchable{
     }
 
 
+    /**
+     * This method helps to convert a string to a maze position.
+     * @param str represent the toString position.
+     * @return Position of the string.
+     */
     private Position stringToPosition(String str){
         str = str.replaceAll("[{}\\s]", "");
         String[] pos_parts = str.split(",");

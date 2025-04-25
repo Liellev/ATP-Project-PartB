@@ -13,8 +13,8 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
     protected HashSet<AState> visited = new HashSet<>();
 
     /**
-     *
-     * @return number of nodes evaluated during the algorithm running
+     * Getter for visited nodes during algorithm.
+     * @return int of nodes count.
      */
     @Override
     public int getNumberOfNodesEvaluated() {
@@ -22,8 +22,8 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
     }
 
     /**
-     *
-     * @return the name of the algorithm
+     * Getter for the algorithm's name.
+     * @return String of the name.
      */
     @Override
     public String getName() {
@@ -31,9 +31,10 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
     }
 
     /**
-     *
-     * @param currentState The state from which the neighbor was discovered
-     * @param neighbor The neighboring state being processed
+     * This method takes a state and its neighbor, sets its move cost
+     * and adds it to priority queue accordingly.
+     * @param currentState The current state being expanded
+     * @param neighbor A neighbor of the current state
      */
     protected void processNeighbor(AState currentState, AState neighbor) {
         neighbor.setCameFrom(currentState);
@@ -43,7 +44,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
     }
 
     /**
-     *
+     * This method solves a problem using Best first search algorithm.
      * @param s represent a searchable object (the problem needed to be solved)
      * @return a solution of the problem from the start state to the goal state
      */

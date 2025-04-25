@@ -1,6 +1,5 @@
 package algorithms.maze3D;
 
-import algorithms.mazeGenerators.Position;
 import algorithms.search.AState;
 import algorithms.search.ISearchable;
 import java.util.ArrayList;
@@ -95,6 +94,14 @@ public class SearchableMaze3D implements ISearchable {
         return (AState) gstate;
     }
 
+
+    /**
+     * This method is used to compute move cost between
+     * a state to another state.
+     * @param from is an Astste that represent the current state in the problem.
+     * @param to is an Astate that represent the state we want to get to.
+     * @return double that represent move cost.
+     */
     @Override
     public double computeMoveCost(AState from, AState to) {
         if(from==null || to==null){
@@ -113,6 +120,11 @@ public class SearchableMaze3D implements ISearchable {
     }
 
 
+    /**
+     * This method helps to convert a string to a maze position.
+     * @param sposition represent the toString position.
+     * @return Position of the string.
+     */
     private Position3D stringToPosition(String sposition){
         sposition = sposition.replaceAll("[{}\\s]", "");
         String[] pos_parts = sposition.split(",");

@@ -40,14 +40,14 @@ public class MyMazeGenerator extends AMazeGenerator {
         Maze maze = new Maze(rows, cols);
         int[][] grid = maze.getMatrix();
 
-        // Fill grid with walls
+        // Fill matrix with walls
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 grid[i][j] = 1;
             }
         }
 
-        // Random starting point
+        // set random starting point
         int startRow = rand.nextInt(rows);
         int startCol = rand.nextInt(cols);
         grid[startRow][startCol] = 0;
@@ -61,7 +61,7 @@ public class MyMazeGenerator extends AMazeGenerator {
             }
         }
 
-        // Choose valid edge start and goal
+        // Choose valid edge to set start and goal cells
         ArrayList<Position> edgePassages = getEdgePassages(grid);
         if (edgePassages.size() < 2) return generate(rows, cols); // fallback
 
@@ -104,7 +104,7 @@ public class MyMazeGenerator extends AMazeGenerator {
      * If there is, the method will return true.
      * @param wall position of the current wall cell.
      * @param grid represent the maze matrix.
-     * @return boolean true if can be pass, false if not.
+     * @return boolean true if can be a pass, false if not.
      */
     private boolean canBePassage(Position wall, int[][] grid) {
         int row = wall.getRowIndex();
@@ -134,10 +134,12 @@ public class MyMazeGenerator extends AMazeGenerator {
         ArrayList<Position> edges = new ArrayList<>();
         int rows = grid.length, cols = grid[0].length;
         for (int i = 0; i < rows; i++) {
+            //check if edges of column already broken
             if (grid[i][0] == 0) edges.add(new Position(i, 0));
             if (grid[i][cols - 1] == 0) edges.add(new Position(i, cols - 1));
         }
         for (int j = 0; j < cols; j++) {
+            //check if edges of rows already broken
             if (grid[0][j] == 0) edges.add(new Position(0, j));
             if (grid[rows - 1][j] == 0) edges.add(new Position(rows - 1, j));
         }

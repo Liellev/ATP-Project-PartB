@@ -11,8 +11,8 @@ import java.util.PriorityQueue;
     So we use the polymorphism rules.
  */
 public class BestFirstSearch extends BreadthFirstSearch{
-    /*
-    Default constructor
+    /**
+     * Default constructor.
      */
     public BestFirstSearch() {
         // Initializes the queue as a PriorityQueue where states are ordered by their cost.
@@ -38,7 +38,7 @@ public class BestFirstSearch extends BreadthFirstSearch{
     }
 
     /**
-     *
+     * This method solves a problem using Best first search algorithm.
      * @param s represent a searchable object (the problem needed to be solved)
      * @return a solution of the problem from the start state to the goal state
      */
@@ -75,7 +75,8 @@ public class BestFirstSearch extends BreadthFirstSearch{
     }
 
     /**
-     *
+     * This method takes a state and its neighbor, sets its move cost
+     * and adds it to priority queue accordingly.
      * @param currentState The current state being expanded
      * @param neighbor A neighbor of the current state
      */

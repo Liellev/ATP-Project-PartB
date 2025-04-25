@@ -44,13 +44,13 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
         Maze3D maze = new Maze3D(depth, rows, cols);
         int[][][] grid = maze.getMap();
 
-        // Fill grid with walls
+        // Fill matrix with walls
         for (int z = 0; z < depth; z++)
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < cols; j++)
                     grid[z][i][j] = 1;
 
-        // Random starting point
+        // set random starting point and break it
         int startZ = rand.nextInt(depth);
         int startRow = rand.nextInt(rows);
         int startCol = rand.nextInt(cols);
@@ -65,7 +65,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
             }
         }
 
-        // Choose valid edge start and goal
+        // Choose valid edge to set start and goal cells
         ArrayList<Position3D> edgePassages = getEdgePassages3D(grid);
         if (edgePassages.size() < 2) return generate(depth, rows, cols); // fallback
 
