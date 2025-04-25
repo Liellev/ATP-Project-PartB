@@ -20,10 +20,6 @@ public class RunSearchOnMaze {
         solveProblem(searchableMaze, new BestFirstSearch());
     }
 
-    public void ll() {
-        System.out.println("Searching for maze");
-    }
-
 
     private static <AState> void solveProblem(ISearchable domain, ISearchingAlgorithm searcher) {
 //Solve a searching problem with a searcher
