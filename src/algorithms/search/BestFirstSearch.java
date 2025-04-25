@@ -44,7 +44,9 @@ public class BestFirstSearch extends BreadthFirstSearch{
      */
     @Override
     public Solution solve(ISearchable s) {
-        if(s == null) return null;
+        if(s == null) {
+            throw new NullPointerException("Null searchable");
+        }
 
         // init the first and the final stats
         AState startState = s.getStartState();

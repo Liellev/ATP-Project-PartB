@@ -34,7 +34,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
      */
     @Override
     public Maze3D generate(int depth, int rows, int cols) {
-        if (depth <= 1 || rows <= 1 || cols <= 1) {
+        if (depth <= 2 || rows <= 2 || cols <= 2) {
             Maze3D defaultMaze = new Maze3D();
             depth = defaultMaze.getDepth();
             rows = defaultMaze.getRows();

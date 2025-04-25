@@ -17,9 +17,11 @@ public class SearchableMaze implements ISearchable{
      * @param maze represent a maze to solve.
      */
     public SearchableMaze(Maze maze){
-        if(maze!=null){
-            this.maze=maze;
+        if(maze==null){
+            throw new NullPointerException("Null maze");
         }
+        this.maze=maze;
+
     }
 
     /**

@@ -32,7 +32,7 @@ public class RunSearchOnMaze {
         long after=System.currentTimeMillis();
         long diff= after-before;
         System.out.println(diff);
-//Printing Solution Path
+        //Printing Solution Path
                 System.out.println("Solution path:");
 
         ArrayList<AState> solutionPath = (ArrayList<AState>) solution.getSolutionPath();
