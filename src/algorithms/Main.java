@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Main {
 
-    public static String m_resultsFileName = "leo.txt";
+    public static String m_resultsFileName = "leo1.txt";
 
     public static enum TestStatus {
         Passed, Failed

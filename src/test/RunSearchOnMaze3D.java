@@ -8,7 +8,7 @@ import algorithms.search.*;
 
 import java.util.ArrayList;
 
-public class RunSearchOmMaze3D {
+public class RunSearchOnMaze3D {
     public static void main(String[] args) {
         IMaze3DGenerator mg = new MyMaze3DGenerator();
         Maze3D maze = mg.generate(10 ,10, 10);

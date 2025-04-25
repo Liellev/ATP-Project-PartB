@@ -90,7 +90,7 @@ public class Maze3D {
                 for( int k=0;k<this.getCols();k++){
                     if(i==this.S.getDepthIndex()&&j==this.S.getRowIndex()&& k==this.S.getColumnIndex()){
                         System.out.print("S");
-                    } else if (i==this.E.getDepthIndex()&&j==this.E.getRowIndex()&& k==this.S.getColumnIndex()) {
+                    } else if (i==this.E.getDepthIndex()&&j==this.E.getRowIndex()&& k==this.E.getColumnIndex()) {
                         System.out.print("E");
                     }
                     else{
