@@ -189,5 +189,70 @@ public class Maze {
         return new Position(rows - 1, cols - 1);
     }
 
+    /**
+     *
+     * @return
+     */
 
+    public byte[] toByteArray(){
+        byte[] bytes = new byte[12 + rows * cols];
+
+        //Meta data of the maze
+        //rows:
+        bytes[0] = (byte)(rows/256);
+        bytes[1] = (byte)(rows%256);
+
+        //colms
+        bytes[2] = (byte)(cols/256);
+        bytes[3] = (byte)(cols%256);
+
+        //Start position
+        bytes[4] = (byte)(start.getRow() / 256);
+        bytes[5] = (byte)(start.getRow() % 256);
+        bytes[6] = (byte)(start.getCol() / 256);
+        bytes[7] = (byte)(start.getCol() % 256);
+
+        //Goal Position
+        bytes[8]  = (byte)(goal.getRow() / 256);
+        bytes[9]  = (byte)(goal.getRow() % 256);
+        bytes[10] = (byte)(goal.getCol() / 256);
+        bytes[11] = (byte)(goal.getCol() % 256);
+
+        //Contact (0,1) copy from the maze to the array
+        int index = 12;
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                bytes[index++] = (byte)(maze[i][j]);
+
+        return bytes;
+    }
+    /**
+     * Constructor for maze from byte array
+     */
+     */
+    public Maze(byte[] bytes){
+         int rows = bytes[0] * 256+bytes[1];
+         int cols = bytes[2] * 256+bytes[3];
+
+         this.rows = rows;
+         this.cols = cols;
+
+         //determinate the start position
+         int startRow = bytes[4] * 256+bytes[5];
+         int startCol = bytes[6] * 256+bytes[7];
+         this.S = new Position(startRow, startCol);
+
+        //determinate the goal position
+        int goalRow = bytes[8] * 256+bytes[9];
+        int goalCol = bytes[10] * 256+bytes[11];
+        this.E = new Position(goalRow, goalCol);
+
+        //fill the maze, recover the maze from the array
+        this.matrix = new int[rows][cols];
+        int index = 12;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                this.matrix[i][j] = bytes[index++];
+            }
+    }
 }
