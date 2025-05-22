@@ -229,7 +229,7 @@ public class Maze {
     /**
      * Constructor for maze from byte array
      */
-     */
+
     public Maze(byte[] bytes){
          int rows = bytes[0] * 256+bytes[1];
          int cols = bytes[2] * 256+bytes[3];
@@ -255,4 +255,5 @@ public class Maze {
                 this.matrix[i][j] = bytes[index++];
             }
     }
+}
 }
