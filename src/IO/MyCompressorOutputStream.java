@@ -6,37 +6,44 @@ import java.io.OutputStream;
 public class MyCompressorOutputStream extends OutputStream {
 
     private OutputStream out;
-    private int lastByteCounter; //to count number of time last byte length.
-    private int lastByte; //1 or 0 to represent the last byte we wrote. starts with 0
+
 
     public MyCompressorOutputStream(OutputStream out){
         this.out=out;
-        this.lastByteCounter=0;
     }
 
     @Override
     public void write(int b) throws IOException {
+        this.out.write(b);
 
     }
 
     @Override
     public void write(byte[] bytes) throws IOException {
-        if(bytes==null || bytes.length==0){
-            return;
-        }
-        super.write(bytes);
-        //array in even places is 0, in odd places is 1
-        byte current= bytes[0];
+        if (bytes == null || bytes.length == 0) return;
 
-        for (int i=0;i<bytes.length;i++){
-            if(i%2==0 && bytes[i]!=0){ //if even (0) and number of times shown is not 0 then
-                this.lastByteCounter=bytes[i];
-                out.write(this.lastByteCounter);//write num of shows
-                out.write(0);//write the byte itself
-            }
-            if(i%2==0 && bytes[i]==0){//if even (0) and number of times shown is  0 then
-                continue;
+        int current = bytes[0]; // מתחילים מ-0 או 1
+        int count = 0;
+
+        for (int i = 0; i < bytes.length; i++) {
+            if (bytes[i] == current) {
+                count++;
+                if (count == 255) {
+                    out.write(255);
+                    count = 0;
+                    // מחליפים ערך לספירה אפסית, כלומר: נרשום 0 הופעות מהערך ההפוך
+                    current = 1 - current;
+                    out.write(0); // מייצג 0 הופעות של הערך ההפוך
+                }
+            } else {
+                out.write(count);
+                count = 1;
+                current = bytes[i];
             }
         }
+
+        // כותבים את הספירה האחרונה
+        out.write(count);
     }
+
 }
