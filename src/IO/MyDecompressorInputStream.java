@@ -3,7 +3,7 @@ package IO;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MyDecompressorInputStream {
+public class MyDecompressorInputStream extends InputStream {
 
     private InputStream in;
 
@@ -26,4 +26,8 @@ public class MyDecompressorInputStream {
         return index;
     }
 
+    @Override
+    public int read() throws IOException {
+        return 0;
+    }
 }
