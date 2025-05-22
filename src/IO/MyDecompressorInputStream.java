@@ -11,23 +11,32 @@ public class MyDecompressorInputStream extends InputStream {
         this.in=in;
     }
 
-    public  int read(byte[] b) throws IOException{
-        int index = 0;
-        int symbol = 0; // מתחילים מ-0
+    @Override
+    public int read(byte[] dest) throws IOException {
+        byte[] compressed = in.readAllBytes();
 
-        int count;
-        while ((count = in.read()) != -1 && index < b.length) {
-            for (int i = 0; i < count && index < b.length; i++) {
-                b[index++] = (byte) symbol;
-            }
-            symbol = 1 - symbol; // מעבר ל־0 או 1
+        if (compressed.length < 12) {
+            System.arraycopy(compressed, 0, dest, 0, compressed.length);
+            return compressed.length;
         }
 
-        return index;
+        // מעתיקים את המטה דאטה
+        System.arraycopy(compressed, 0, dest, 0, 12);
+
+        int destIndex = 12;
+        for (int i = 12; i < compressed.length; i++) {
+            byte b = compressed[i];
+            for (int bit = 0; bit < 8 && destIndex < dest.length; bit++) {
+                int value = (b >> (7 - bit)) & 1;
+                dest[destIndex++] = (byte) value;
+            }
+        }
+
+        return destIndex;
     }
 
     @Override
     public int read() throws IOException {
-        return 0;
+        return this.in.read();
     }
 }
