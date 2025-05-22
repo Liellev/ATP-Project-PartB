@@ -11,20 +11,27 @@ public class MyDecompressorInputStream extends InputStream {
         this.in=in;
     }
 
-    public  int read(byte[] b) throws IOException{
+    @Override
+    public int read(byte[] b) throws IOException {
         int index = 0;
-        int symbol = 0; // מתחילים מ-0
 
-        int count;
-        while ((count = in.read()) != -1 && index < b.length) {
-            for (int i = 0; i < count && index < b.length; i++) {
-                b[index++] = (byte) symbol;
+        // read header
+        for (int i = 0; i < 12; i++) {
+            b[index++] = (byte) in.read();
+        }
+
+        int value;
+        while ((value = in.read()) != -1) {
+            int count = in.read();
+            for (int i = 0; i < count; i++) {
+                if (index >= b.length) return index;
+                b[index++] = (byte) value;
             }
-            symbol = 1 - symbol; // מעבר ל־0 או 1
         }
 
         return index;
     }
+
 
     @Override
     public int read() throws IOException {

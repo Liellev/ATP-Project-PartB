@@ -19,31 +19,25 @@ public class MyCompressorOutputStream extends OutputStream {
     }
 
     @Override
-    public void write(byte[] bytes) throws IOException {
-        if (bytes == null || bytes.length == 0) return;
-
-        int current = bytes[0]; // מתחילים מ-0 או 1
-        int count = 0;
-
-        for (int i = 0; i < bytes.length; i++) {
-            if (bytes[i] == current) {
-                count++;
-                if (count == 255) {
-                    out.write(255);
-                    count = 0;
-                    // מחליפים ערך לספירה אפסית, כלומר: נרשום 0 הופעות מהערך ההפוך
-                    current = 1 - current;
-                    out.write(0); // מייצג 0 הופעות של הערך ההפוך
-                }
-            } else {
-                out.write(count);
-                count = 1;
-                current = bytes[i];
-            }
+    public void write(byte[] b) throws IOException {
+        // נניח שה-12 הראשונים הם מטא-דאטה
+        for (int i = 0; i < 12; i++) {
+            out.write(b[i]);  // כתיבה רגילה
         }
 
-        // כותבים את הספירה האחרונה
+        byte current = b[12];
+        int count = 1;
+        for (int i = 13; i < b.length; i++) {
+            if (b[i] == current) {
+                count++;
+            } else {
+                out.write(current);
+                out.write(count);
+                current = b[i];
+                count = 1;
+            }
+        }
+        out.write(current);
         out.write(count);
     }
-
 }
