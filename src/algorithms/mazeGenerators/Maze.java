@@ -207,22 +207,22 @@ public class Maze {
         bytes[3] = (byte)(cols%256);
 
         //Start position
-        bytes[4] = (byte)(start.getRow() / 256);
-        bytes[5] = (byte)(start.getRow() % 256);
-        bytes[6] = (byte)(start.getCol() / 256);
-        bytes[7] = (byte)(start.getCol() % 256);
+        bytes[4] = (byte)(S.getRowIndex() / 256);
+        bytes[5] = (byte)(S.getRowIndex() % 256);
+        bytes[6] = (byte)(S.getColumnIndex() / 256);
+        bytes[7] = (byte)(S.getColumnIndex() % 256);
 
         //Goal Position
-        bytes[8]  = (byte)(goal.getRow() / 256);
-        bytes[9]  = (byte)(goal.getRow() % 256);
-        bytes[10] = (byte)(goal.getCol() / 256);
-        bytes[11] = (byte)(goal.getCol() % 256);
+        bytes[8]  = (byte)(E.getRowIndex() / 256);
+        bytes[9]  = (byte)(E.getRowIndex() % 256);
+        bytes[10] = (byte)(E.getColumnIndex() / 256);
+        bytes[11] = (byte)(E.getColumnIndex() % 256);
 
         //Contact (0,1) copy from the maze to the array
         int index = 12;
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < cols; j++)
-                bytes[index++] = (byte)(maze[i][j]);
+                bytes[index++] = (byte)(matrix[i][j]);
 
         return bytes;
     }
@@ -254,6 +254,6 @@ public class Maze {
             for (int j = 0; j < cols; j++) {
                 this.matrix[i][j] = bytes[index++];
             }
+        }
     }
-}
 }
