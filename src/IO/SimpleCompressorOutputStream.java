@@ -3,19 +3,25 @@ package IO;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * This class is for compressing output streams.
+ * it will use us to reduce memory use with mazes.
+ * In this class we use a specific method for counting appearances of 0 and 1.
+ * This class extends class OutputStream.
+ */
 public class SimpleCompressorOutputStream extends OutputStream {
     private OutputStream out;
 
     /**
-     *
-     * @param out
+     * Constructor with parameter.
+     * @param out represents the output stream.
      */
     public SimpleCompressorOutputStream(OutputStream out){
         this.out=out;
     }
 
     /**
-     *
+     * This method writes int to the output stream.
      * @param b   the {@code byte}.
      * @throws IOException
      */
@@ -25,6 +31,12 @@ public class SimpleCompressorOutputStream extends OutputStream {
 
     }
 
+    /**
+     * This method writes byte[] to the output stream.
+     * Using counting appearances of 0 and 1 and writing it to the output stream.
+     * @param b   the data, byte array.
+     * @throws IOException
+     */
     @Override
     public void write(byte[] b) throws IOException {
         for (int i = 0; i < 12; i++) {

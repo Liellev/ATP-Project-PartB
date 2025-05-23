@@ -190,11 +190,11 @@ public class Maze implements Serializable {
         return new Position(rows - 1, cols - 1);
     }
 
-    /**
-     *
-     * @return
-     */
 
+    /**
+     * This method is for turning the object itself into a byte array.
+     * @return byte[] the object in Bytes.
+     */
     public byte[] toByteArray(){
         byte[] bytes = new byte[12 + rows * cols];
 
@@ -227,10 +227,12 @@ public class Maze implements Serializable {
 
         return bytes;
     }
-    /**
-     * Constructor for maze from byte array
-     */
 
+
+    /**
+     * Constructor for Maze that gets bytes array.
+     * @param bytes the bytes array that represents the maze.
+     */
     public Maze(byte[] bytes){
          int rows = bytes[0] * 256+bytes[1];
          int cols = bytes[2] * 256+bytes[3];

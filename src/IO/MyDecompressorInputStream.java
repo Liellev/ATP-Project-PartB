@@ -3,14 +3,29 @@ package IO;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * This class is for decompressing input streams.
+ * it will use us to read the compressed object.
+ * This class extends class InputStream.
+ */
 public class MyDecompressorInputStream extends InputStream {
 
     private InputStream in;
 
+    /**
+     * Constructor with parameters.
+     * @param in represents the input stream
+     */
     public MyDecompressorInputStream(InputStream in){
         this.in=in;
     }
 
+    /**
+     * This method reads byte array to the input stream.
+     * @param dest   the buffer into which the data is read.
+     * @return int that represent the value of the given byte array.
+     * @throws IOException
+     */
     @Override
     public int read(byte[] dest) throws IOException {
         byte[] compressed = in.readAllBytes();
@@ -20,7 +35,6 @@ public class MyDecompressorInputStream extends InputStream {
             return compressed.length;
         }
 
-        // מעתיקים את המטה דאטה
         System.arraycopy(compressed, 0, dest, 0, 12);
 
         int destIndex = 12;
@@ -35,6 +49,11 @@ public class MyDecompressorInputStream extends InputStream {
         return destIndex;
     }
 
+    /**
+     * This methood reads the next byte in input stream.
+     * @return int that represent the valur of the byte from 0 to 255.
+     * @throws IOException
+     */
     @Override
     public int read() throws IOException {
         return this.in.read();
