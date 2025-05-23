@@ -33,6 +33,6 @@ public class Configurations extends Properties{
 
     @Override
     public String getProperty(String key) {
-        return super.getProperty(key);
+        return properties.getProperty(key);
     }
 }

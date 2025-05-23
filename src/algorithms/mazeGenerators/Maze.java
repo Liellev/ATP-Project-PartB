@@ -1,4 +1,5 @@
 package algorithms.mazeGenerators;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -6,7 +7,7 @@ import java.util.Random;
 /**
  * This is class Maze. it has all necessary fields and method to generate a maze of all types.
  */
-public class Maze {
+public class Maze implements Serializable {
 
     private int[][] matrix;
     private int rows;

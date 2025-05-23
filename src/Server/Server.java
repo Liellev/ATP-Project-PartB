@@ -11,6 +11,7 @@ import java.net.SocketTimeoutException;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class Server {
     private int port;
@@ -27,18 +28,20 @@ public class Server {
         this.listeningIntervalMS = listeningIntervalMS;
         this.strategy = strategy;
         this.config=Configurations.getInstance();
+        this.stop=false;
 
         this.threadPool = Executors.newFixedThreadPool(Integer.parseInt(config.getProperty("threadPoolSize")));
         this.thread=new Thread(new Runnable() {
             @Override
             public void run() {
-                start();
+                startServer();
             }
         });
-        System.out.println("Thread pool initialized with " + threadPool + " threads");
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) threadPool;
+        System.out.println("Thread pool initialized with " + executor.getCorePoolSize() + " threads");
     }
 
-    public void start() {
+    public void startServer() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             serverSocket.setSoTimeout(listeningIntervalMS);
             System.out.println("Starting server at port = " + port);
@@ -54,9 +57,15 @@ public class Server {
                     System.out.println("Socket timeout");
                 }
             }
+            serverSocket.close();
+            threadPool.shutdown();
         } catch (IOException e) {
             System.out.println("IOException during server start");
         }
+    }
+
+    public void start(){
+        thread.start();
     }
 
     private void handleClient(Socket clientSocket) {
@@ -75,16 +84,6 @@ public class Server {
         threadPool.shutdown();
     }
 
-//    private int loadThreadPoolSize() {
-//        Properties properties = new Properties();
-//        try (FileInputStream fis = new FileInputStream("config.properties")) {
-//            properties.load(fis);
-//            String value = properties.getProperty("threadPoolSize");
-//            return Integer.parseInt(value);
-//        } catch (IOException | NumberFormatException e) {
-//            System.out.println("Could not load threadPoolSize from config.properties. Using default = 5");
-//            return 5;
-//        }
-//    }
+
 }
 

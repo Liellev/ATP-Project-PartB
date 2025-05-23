@@ -1,12 +1,13 @@
 package algorithms.mazeGenerators;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * This is a class that defines a position (row,column).
  * Uses the program to define a location in a matrix.
  */
-public class Position {
+public class Position implements Serializable {
 
      int row;
      int col;

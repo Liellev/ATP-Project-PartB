@@ -43,6 +43,9 @@ public class ServerStrategyGenerateMaze implements IServerStrategy {
         try {
             ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
             ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
+            toClient.flush();
+
+
             String maze_file="MazeForClient";
             OutputStream outputStream= new FileOutputStream(maze_file);
 

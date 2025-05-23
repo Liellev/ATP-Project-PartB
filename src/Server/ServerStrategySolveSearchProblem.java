@@ -14,6 +14,10 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
     public Configurations config;
     String tempDirectoryPath = System.getProperty("java.io.tmpdir");
 
+    public ServerStrategySolveSearchProblem(){
+        this.config=Configurations.getInstance();
+    }
+
     private Solution searchingAlgorithmSelection(SearchableMaze sMaze){
         String maze_searching_strategy= config.getProperty("mazeSearchingAlgorithm");
         Solution solution=null;

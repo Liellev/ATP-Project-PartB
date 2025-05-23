@@ -1,11 +1,13 @@
 package algorithms.search;
 import algorithms.mazeGenerators.Position;
 
+import java.io.Serializable;
+
 /**
  * This class represent a state in maze. it extends Astate.
  * Each Maze state contains a position.
  */
-public class MazeState extends AState {
+public class MazeState extends AState implements Serializable {
 
     private Position state; //using position as it is from maze generators.
 

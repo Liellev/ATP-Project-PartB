@@ -1,12 +1,13 @@
 package algorithms.search;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class represents a solution of a given problem.
  * The solution is actually a list of states that solves the problem.
  */
-public class Solution {
+public class Solution implements Serializable {
 
     private ArrayList<AState> path;
 
