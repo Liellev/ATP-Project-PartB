@@ -1,10 +1,7 @@
 package Server;
 
-import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.MyMazeGenerator;
-import algorithms.search.BestFirstSearch;
-import algorithms.search.SearchableMaze;
-import algorithms.search.Solution;
+import algorithms.mazeGenerators.*;
+import algorithms.search.*;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -13,7 +10,33 @@ import java.security.NoSuchAlgorithmException;
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy {
 
+
+    public Configurations config;
     String tempDirectoryPath = System.getProperty("java.io.tmpdir");
+
+    private Solution searchingAlgorithmSelection(SearchableMaze sMaze){
+        String maze_searching_strategy= config.getProperty("mazeSearchingAlgorithm");
+        Solution solution=null;
+
+        switch (maze_searching_strategy){
+            case("BestFirstSearch"):
+                BestFirstSearch best=new BestFirstSearch();
+                solution=best.solve(sMaze);
+                break;
+
+            case ("BreadthFirstSearch"):
+                BreadthFirstSearch bfs=new BreadthFirstSearch();
+                solution=bfs.solve(sMaze);
+                break;
+
+            case ("DepthFirstSearch"):
+                DepthFirstSearch dfs=new DepthFirstSearch();
+                solution=dfs.solve(sMaze);
+                break;
+
+        }
+        return solution;
+    }
 
     public String hashMaze(byte[] maze_byte)  {
         try {
@@ -45,8 +68,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
             else{
                 ObjectOutputStream solution_output=new ObjectOutputStream(new FileOutputStream(sol_file));
                 SearchableMaze s_maze=new SearchableMaze(maze);
-                BestFirstSearch algorithm= new BestFirstSearch();
-                solution=algorithm.solve(s_maze);
+                solution=searchingAlgorithmSelection(s_maze);
                 solution_output.writeObject(solution);
             }
 

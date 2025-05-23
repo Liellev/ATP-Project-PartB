@@ -18,15 +18,24 @@ public class Server {
     private IServerStrategy strategy;
     private volatile boolean stop;
     private ExecutorService threadPool;
+    public Configurations config;
+    private Thread thread;
+
 
     public Server(int port, int listeningIntervalMS, IServerStrategy strategy) {
         this.port = port;
         this.listeningIntervalMS = listeningIntervalMS;
         this.strategy = strategy;
+        this.config=Configurations.getInstance();
 
-        int threadPoolSize = loadThreadPoolSize();
-        this.threadPool = Executors.newFixedThreadPool(threadPoolSize);
-        System.out.println("Thread pool initialized with " + threadPoolSize + " threads");
+        this.threadPool = Executors.newFixedThreadPool(Integer.parseInt(config.getProperty("threadPoolSize")));
+        this.thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                start();
+            }
+        });
+        System.out.println("Thread pool initialized with " + threadPool + " threads");
     }
 
     public void start() {
@@ -66,16 +75,16 @@ public class Server {
         threadPool.shutdown();
     }
 
-    private int loadThreadPoolSize() {
-        Properties properties = new Properties();
-        try (FileInputStream fis = new FileInputStream("config.properties")) {
-            properties.load(fis);
-            String value = properties.getProperty("ThreadPoolSize");
-            return Integer.parseInt(value);
-        } catch (IOException | NumberFormatException e) {
-            System.out.println("Could not load ThreadPoolSize from config.properties. Using default = 5");
-            return 5;
-        }
-    }
+//    private int loadThreadPoolSize() {
+//        Properties properties = new Properties();
+//        try (FileInputStream fis = new FileInputStream("config.properties")) {
+//            properties.load(fis);
+//            String value = properties.getProperty("threadPoolSize");
+//            return Integer.parseInt(value);
+//        } catch (IOException | NumberFormatException e) {
+//            System.out.println("Could not load threadPoolSize from config.properties. Using default = 5");
+//            return 5;
+//        }
+//    }
 }
 
