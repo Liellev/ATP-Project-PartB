@@ -5,15 +5,27 @@ import algorithms.mazeGenerators.*;
 
 import java.io.*;
 
+/**
+ * This class is for a server that generates mazes.
+ */
 public class ServerStrategyGenerateMaze implements IServerStrategy {
 
     public Configurations config;
 
+    /**
+     * Default constructor.
+     */
     public ServerStrategyGenerateMaze(){
         this.config=Configurations.getInstance();
     }
 
 
+    /**
+     * This method is for choosing the algorithm to create a maze.
+     * @param rows num of rows of maze.
+     * @param cols num of cols of maze.
+     * @return the created maze
+     */
     private Maze generateMazeSelection(int rows, int cols){
         String maze_geberte_strategy= config.getProperty("mazeGeneratingAlgorithm");
         AMazeGenerator mazeGenerator;
@@ -38,6 +50,11 @@ public class ServerStrategyGenerateMaze implements IServerStrategy {
         return maze;
     }
 
+    /**
+     * This method to create a maze and send it to client.
+     * @param inFromClient the input stream from client
+     * @param outToClient the output stream to client.
+     */
     @Override
     public void applyStrategy(InputStream inFromClient, OutputStream outToClient) {
         try {

@@ -8,16 +8,27 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * This class is for a server that solves mazes.
+ */
 public class ServerStrategySolveSearchProblem implements IServerStrategy {
 
 
     public Configurations config;
     String tempDirectoryPath = System.getProperty("java.io.tmpdir");
 
+    /**
+     * Default constructor.
+     */
     public ServerStrategySolveSearchProblem(){
         this.config=Configurations.getInstance();
     }
 
+    /**
+     * This method is for choosing the algorithm to solve a maze.
+     * @param sMaze the maze that is needed to be solved.
+     * @return the solution of the maze.
+     */
     private Solution searchingAlgorithmSelection(SearchableMaze sMaze){
         String maze_searching_strategy= config.getProperty("mazeSearchingAlgorithm");
         Solution solution=null;
@@ -42,6 +53,11 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
         return solution;
     }
 
+    /**
+     * This method is for creating am ID for the maze.
+     * @param maze_byte the maze in bytes.
+     * @return String that represent the maze ID.
+     */
     public String hashMaze(byte[] maze_byte)  {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -53,6 +69,11 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
         }
     }
 
+    /**
+     * This method to solve a maze and send the solution to client.
+     * @param inFromClient the input stream from client -the maze.
+     * @param outToClient the output stream to client - the solution.
+     */
     @Override
     public void applyStrategy(InputStream inFromClient, OutputStream outToClient) {
         try {
