@@ -24,29 +24,34 @@ public class MyDecompressorInputStream extends InputStream {
      * This method reads byte array to the input stream.
      * @param dest   the buffer into which the data is read.
      * @return int that represent the value of the given byte array.
-     * @throws IOException
      */
     @Override
     public int read(byte[] dest) throws IOException {
         byte[] compressed = in.readAllBytes();
+        decompress(compressed, dest);
+        return dest.length;
+    }
 
+    /**
+     * Decompresses a packed byte array into original binary form
+     * @param compressed compressed byte array from input stream
+     * @param dest       decompressed output buffer
+     */
+    private void decompress(byte[] compressed, byte[] dest) {
         if (compressed.length < 12) {
             System.arraycopy(compressed, 0, dest, 0, compressed.length);
-            return compressed.length;
+            return;
         }
 
-        System.arraycopy(compressed, 0, dest, 0, 12);
+        System.arraycopy(compressed, 0, dest, 0, 12);  // header
 
         int destIndex = 12;
         for (int i = 12; i < compressed.length; i++) {
             byte b = compressed[i];
             for (int bit = 0; bit < 8 && destIndex < dest.length; bit++) {
-                int value = (b >> (7 - bit)) & 1;
-                dest[destIndex++] = (byte) value;
+                dest[destIndex++] = (byte) ((b >> (7 - bit)) & 1);
             }
         }
-
-        return destIndex;
     }
 
     /**

@@ -44,18 +44,32 @@ public class MyCompressorOutputStream extends OutputStream {
             return;
         }
 
-        out.write(data, 0, 12);
-
-        int i = 12;
-        while (i < data.length) {
-            byte packedByte = 0;
-            for (int bit = 0; bit < 8 && i < data.length; bit++, i++) {
-                if (data[i] != 0) {
-                    packedByte |= (1 << (7 - bit));
-                }
-            }
-            out.write(packedByte);
-        }
+        out.write(data, 0, 12); // write header
+        byte[] compressed = compress(data, 12);
+        out.write(compressed);
     }
 
+    /**
+     * Compresses binary byte array into packed bytes starting from offset.
+     * @param data  byte array to be compressed
+     * @param offset
+     * @return compressed byte array
+     */
+    private byte[] compress(byte[] data, int offset) {
+        int length = data.length - offset;
+        int numPackedBytes = (int) Math.ceil(length / 8.0);
+        byte[] result = new byte[numPackedBytes];
+
+        int i = offset;
+        for (int byteIndex = 0; byteIndex < numPackedBytes; byteIndex++) {
+            byte packed = 0;
+            for (int bit = 0; bit < 8 && i < data.length; bit++, i++) {
+                if (data[i] != 0) {
+                    packed |= (1 << (7 - bit));
+                }
+            }
+            result[byteIndex] = packed;
+        }
+        return result;
+    }
 }
