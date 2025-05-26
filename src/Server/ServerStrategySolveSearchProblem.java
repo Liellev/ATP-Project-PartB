@@ -75,7 +75,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
      * @param outToClient the output stream to client - the solution.
      */
     @Override
-    public void applyStrategy(InputStream inFromClient, OutputStream outToClient) {
+    public void serverstrategy(InputStream inFromClient, OutputStream outToClient) {
         try {
             ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
             ObjectOutputStream toClient = new ObjectOutputStream(outToClient);

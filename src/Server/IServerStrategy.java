@@ -7,5 +7,5 @@ import java.io.OutputStream;
  * This is an interface that holds the serverStrategy,
  */
 public interface IServerStrategy {
-    void applyStrategy(InputStream inFromClient, OutputStream outToClient);
+    void serverstrategy(InputStream inFromClient, OutputStream outToClient);
 }

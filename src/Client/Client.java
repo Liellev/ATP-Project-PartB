@@ -10,9 +10,9 @@ import java.net.Socket;
  */
 public class Client {
 
-    private InetAddress serverIP;
-    private int serverPort;
-    private IClientStrategy strategy;
+    private final InetAddress serverIP;
+    private final int serverPort;
+    private final IClientStrategy strategy;
 
     /**
      * Constructor with parameters.
@@ -30,13 +30,15 @@ public class Client {
      * This method is for connecting to server.
      */
     public void communicateWithServer(){
-        try(Socket serverSocket = new Socket(serverIP, serverPort)){
-            System.out.println("connected to server - IP = " + serverIP + ", Port = " + serverPort);
+        try {
+            Socket serverSocket = new Socket(serverIP, serverPort);
+
             strategy.clientStrategy(serverSocket.getInputStream(), serverSocket.getOutputStream());
+
+            serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
 }

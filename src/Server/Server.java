@@ -42,7 +42,6 @@ public class Server {
             }
         });
         ThreadPoolExecutor executor = (ThreadPoolExecutor) threadPool;
-        System.out.println("Thread pool initialized with " + executor.getCorePoolSize() + " threads");
     }
 
     /**
@@ -52,23 +51,18 @@ public class Server {
     public void startServer() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             serverSocket.setSoTimeout(listeningIntervalMS);
-            System.out.println("Starting server at port = " + port);
-
             while (!stop) {
                 try {
                     Socket clientSocket = serverSocket.accept();
-                    System.out.println("Client accepted: " + clientSocket);
 
                     threadPool.execute(() -> handleClient(clientSocket));
 
                 } catch (SocketTimeoutException e) {
-                    System.out.println("Socket timeout");
                 }
             }
             serverSocket.close();
             threadPool.shutdown();
         } catch (IOException e) {
-            System.out.println("IOException during server start");
         }
     }
 
@@ -86,8 +80,8 @@ public class Server {
      */
     private void handleClient(Socket clientSocket) {
         try {
-            strategy.applyStrategy(clientSocket.getInputStream(), clientSocket.getOutputStream());
-            System.out.println("Done handling client: " + clientSocket);
+            strategy.serverstrategy(clientSocket.getInputStream(), clientSocket.getOutputStream());
+
             clientSocket.close();
         } catch (IOException e) {
             System.out.println("IOException during client handling");
@@ -98,7 +92,6 @@ public class Server {
      * This method is for stopping the server from running.
      */
     public void stop() {
-        System.out.println("Stopping server...");
         stop = true;
         threadPool.shutdown();
     }
